@@ -1,0 +1,24 @@
+.body {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 500;
+  color: var(--c-title);
+  white-space: pre-wrap;
+}
+.occCard {
+  gap: 12px;
+}
+.occText {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 500;
+  color: var(--c-title);
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  order: 3;
+}
+.actions > * {
+  flex: 1 0 0;
+}

@@ -17,6 +17,9 @@ import NotaNueva from './pages/worker/notas/NotaNueva';
 import NoticiasWorker from './pages/worker/noticias/Noticias';
 import NoticiaForm from './pages/worker/noticias/NoticiaForm';
 import NoticiaDetalleWorker from './pages/worker/noticias/NoticiaDetalleWorker';
+import Intervalos from './pages/worker/intervalos/Intervalos';
+import IntervaloForm from './pages/worker/intervalos/IntervaloForm';
+import IntervaloDetalle from './pages/worker/intervalos/IntervaloDetalle';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -67,10 +70,10 @@ export default function App() {
         <Route path="noticias/:id/editar" element={<NoticiaForm mode="edit" key="edit" />} />
         <Route path="notas" element={<Notas />} />
         <Route path="notas/nueva" element={<NotaNueva />} />
-        <Route path="intervalos" element={<Placeholder title="INTERVALOS" />} />
-        <Route path="intervalos/nuevo" element={<Placeholder title="NUEVO INTERVALO" />} />
-        <Route path="intervalos/:id" element={<Placeholder title="DETALLE DEL INTERVALO" />} />
-        <Route path="intervalos/:id/editar" element={<Placeholder title="EDITAR INTERVALO" />} />
+        <Route path="intervalos" element={<Intervalos />} />
+        <Route path="intervalos/nuevo" element={<IntervaloForm mode="new" />} />
+        <Route path="intervalos/:id" element={<IntervaloDetalle />} />
+        <Route path="intervalos/:id/editar" element={<IntervaloForm mode="edit" />} />
       </Route>
 
       <Route path="*" element={<RootRedirect />} />

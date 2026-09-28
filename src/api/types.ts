@@ -111,6 +111,8 @@ export interface IntervalView extends Interval {
   /** Turnos asignados (no cancelados). */
   occupied: number;
   pendingCount: number;
+  /** Alumnos distintos con turnos pendientes (a quienes se notifica al desactivar). */
+  pendingStudents: number;
 }
 
 /* ---------- Requests (Application/Dtos) ---------- */

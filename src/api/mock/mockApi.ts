@@ -78,6 +78,7 @@ function enrichInterval(i: Interval): IntervalView {
     createdBy: d.workers.find((w) => w.id === i.workerId) ?? null,
     occupied: turns.length,
     pendingCount: turns.filter((t) => t.status === 'PENDING').length,
+    pendingStudents: new Set(turns.filter((t) => t.status === 'PENDING').map((t) => t.studentId)).size,
   };
 }
 
