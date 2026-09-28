@@ -1,0 +1,233 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  min-width: 0;
+}
+.label {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-muted);
+}
+.help {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-muted);
+}
+.error {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-red);
+  font-weight: 600;
+}
+
+/* Caja del control: blanco, borde #D9D9D9, radio 10, padding 10 12 */
+.box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 39px;
+  padding: 0 12px;
+  background: var(--c-white);
+  border: 1px solid var(--c-border-soft);
+  border-radius: var(--r-chip);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.box:focus-within {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(252, 73, 20, 0.12);
+}
+.invalid {
+  border-color: var(--c-red);
+}
+.disabled {
+  opacity: 0.55;
+}
+.control {
+  flex: 1 0 0;
+  min-width: 0;
+  height: 37px;
+  padding: 10px 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--c-title);
+}
+.control::placeholder {
+  color: var(--c-muted);
+  opacity: 1;
+}
+.control:disabled {
+  cursor: not-allowed;
+}
+.selectBox .control {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 20px;
+  cursor: pointer;
+}
+.placeholder {
+  color: var(--c-muted);
+}
+.chevron {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  line-height: 10px;
+  color: var(--c-muted);
+  pointer-events: none;
+}
+.textareaBox {
+  align-items: stretch;
+  padding: 0 12px;
+}
+.textarea {
+  height: auto;
+  min-height: 110px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* ---------- Checkbox (Simple Design System) ---------- */
+.checkRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex-shrink: 0;
+  border: 1px solid #757575;
+  border-radius: 4px;
+  background: var(--c-white);
+  display: grid;
+  place-content: center;
+  cursor: pointer;
+}
+.check::after {
+  content: '';
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--c-white);
+  border-bottom: 2px solid var(--c-white);
+  transform: rotate(-45deg) translate(1px, -1px);
+  opacity: 0;
+}
+.check:checked {
+  background: #1e1e1e;
+  border-color: #1e1e1e;
+}
+.check:checked::after {
+  opacity: 1;
+}
+.check:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.checkLabel {
+  font-size: 16px;
+  line-height: 22px;
+  color: #1e1e1e;
+}
+
+/* ---------- Adjuntar archivo ---------- */
+.fileField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+.drop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--c-white);
+  border: 1px dashed var(--c-border-strong);
+  border-radius: var(--r-chip);
+  flex-wrap: wrap;
+}
+.dropOver {
+  border-color: var(--c-accent);
+  background: #fff7f4;
+}
+.attachBtn {
+  padding: 8px 12px;
+  border: 0;
+  border-radius: var(--r-pill);
+  box-shadow: inset 0 0 0 1.5px var(--c-black);
+  background: transparent;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  color: var(--c-black);
+  white-space: nowrap;
+}
+.attachBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.dropText {
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--c-muted);
+}
+.fileName {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-title);
+  word-break: break-all;
+}
+.removeFile {
+  border: 0;
+  background: transparent;
+  color: var(--c-muted);
+  font-size: 13px;
+  padding: 2px 4px;
+}
+
+/* ---------- Caja informativa gris ---------- */
+.infoBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: var(--r-chip);
+  background: var(--bg-row);
+}
+.infoTitle {
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 800;
+  color: var(--c-muted);
+}
+.infoValue {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--c-title);
+}
+
+.formError {
+  width: 100%;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--c-red);
+}

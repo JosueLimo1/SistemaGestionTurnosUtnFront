@@ -239,6 +239,17 @@ export const mockApi: Api = {
       // Mensaje genérico por seguridad (CU Gestión de Usuarios 1.b-4.a).
       throw new ApiError('Legajo o contraseña incorrectos.', 401, 'INVALID_CREDENTIALS');
     },
+    async me(user) {
+      const d = db();
+      if (user.role === 'STUDENT') {
+        const s = d.students.find((x) => x.id === user.student.id);
+        if (s) return delay({ role: 'STUDENT', student: s }, 0);
+      } else {
+        const w = d.workers.find((x) => x.id === user.worker.id);
+        if (w) return delay({ role: 'WORKER', worker: w }, 0);
+      }
+      throw new ApiError('Tu sesión expiró. Volvé a iniciar sesión.', 401, 'SESSION_EXPIRED');
+    },
     async registerStudent({ institutionalEmail, name, legajo, password }) {
       const d = db();
       const email = institutionalEmail.trim().toLowerCase();

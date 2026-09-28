@@ -1,0 +1,107 @@
+/* Main: padding 32 10 40 (móvil) / 32 50 40 (escritorio) */
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  padding: 32px 10px 40px;
+}
+.columns {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  width: 100%;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+.left {
+  flex: 1 0 0;
+  min-width: 0;
+}
+.right {
+  flex: 0 0 560px;
+  width: 560px;
+}
+.title {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.subtitle {
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--c-muted);
+}
+.calendarWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.timeRow {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+}
+.hint {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-muted);
+}
+.buttons {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+}
+.buttons > * {
+  flex: 1 0 0;
+}
+
+/* Modales */
+.question {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.codeBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 15px;
+  border-radius: var(--r-chip);
+  background: var(--bg-row);
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 500;
+  color: var(--c-title);
+}
+.codeBox strong {
+  font-weight: 700;
+  color: var(--c-black);
+}
+.code {
+  font-size: 22px;
+  line-height: 27px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--c-title);
+}
+
+@media (min-width: 1024px) {
+  .main {
+    padding: 32px 50px 40px;
+  }
+}

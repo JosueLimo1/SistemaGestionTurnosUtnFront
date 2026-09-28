@@ -4,6 +4,8 @@ import { homeFor, RequireRole, StudentLayout, WorkerLayout } from './components/
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Placeholder from './pages/Placeholder';
+import StudentHome from './pages/student/Home';
+import SacarTurno from './pages/student/SacarTurno';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -26,8 +28,8 @@ export default function App() {
           </RequireRole>
         }
       >
-        <Route index element={<Placeholder title="HOME" />} />
-        <Route path="sacar-turno" element={<Placeholder title="SACAR TURNO" />} />
+        <Route index element={<StudentHome />} />
+        <Route path="sacar-turno" element={<SacarTurno />} />
         <Route path="mis-turnos" element={<Placeholder title="MIS TURNOS" />} />
         <Route path="noticias" element={<Placeholder title="NOTICIAS" />} />
         <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />

@@ -18,7 +18,7 @@ export interface MockDb {
   passwords: Record<string, string>;
 }
 
-export const DB_VERSION = 1;
+export const DB_VERSION = 3;
 export const DEMO_PASSWORD = 'utn2026';
 
 function rng(seed: number) {
@@ -64,13 +64,19 @@ function isWeekend(d: Date) {
 
 export function buildSeed(now = new Date()): MockDb {
   const rand = rng(20260914);
+  // IDs deterministas: regenerar los datos de demo no invalida la sesión abierta.
+  const idRand = rng(1878);
+  const sid = () => {
+    const hex = Array.from({ length: 32 }, () => Math.floor(idRand() * 16).toString(16)).join('');
+    return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-4${hex.slice(13, 16)}-a${hex.slice(17, 20)}-${hex.slice(20, 32)}`;
+  };
   const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)];
 
   const workers: Worker[] = [
-    { id: newId(), name: 'RAMIREZ, PAULA', phoneNumber: '381 555-0101', email: 'pramirez@frt.utn.edu.ar', legajo: 1000, isAdmin: true },
-    { id: newId(), name: 'SOSA, MARTIN', phoneNumber: '381 555-0102', email: 'msosa@frt.utn.edu.ar', legajo: 1001, isAdmin: false },
-    { id: newId(), name: 'PEREZ, LAURA', phoneNumber: '381 555-0103', email: 'lperez@frt.utn.edu.ar', legajo: 1002, isAdmin: false },
-    { id: newId(), name: 'GOMEZ, MARTIN', phoneNumber: '381 555-0104', email: 'mgomez@frt.utn.edu.ar', legajo: 1003, isAdmin: false },
+    { id: sid(), name: 'RAMIREZ, PAULA', phoneNumber: '381 555-0101', email: 'pramirez@frt.utn.edu.ar', legajo: 1000, isAdmin: true },
+    { id: sid(), name: 'SOSA, MARTIN', phoneNumber: '381 555-0102', email: 'msosa@frt.utn.edu.ar', legajo: 1001, isAdmin: false },
+    { id: sid(), name: 'PEREZ, LAURA', phoneNumber: '381 555-0103', email: 'lperez@frt.utn.edu.ar', legajo: 1002, isAdmin: false },
+    { id: sid(), name: 'GOMEZ, MARTIN', phoneNumber: '381 555-0104', email: 'mgomez@frt.utn.edu.ar', legajo: 1003, isAdmin: false },
   ];
 
   const noteNames = [
@@ -80,7 +86,7 @@ export function buildSeed(now = new Date()): MockDb {
     'CAMBIO DE COMISION',
     'RECURSADO DE ASIGNATURAS ANUALES',
   ];
-  const notes: Note[] = noteNames.map((name, i) => ({ id: newId(), name, workerId: workers[i % 2].id }));
+  const notes: Note[] = noteNames.map((name, i) => ({ id: sid(), name, workerId: workers[i % 2].id }));
   const [nAmpliacion, nInscripcion, nBaja, nCambio, nRecursado] = notes;
 
   const studentData: [string, number][] = [
@@ -93,7 +99,7 @@ export function buildSeed(now = new Date()): MockDb {
   const students: Student[] = studentData.map(([name, legajo]) => {
     const [apellido, nombre] = name.split(', ');
     const email = `${nombre[0]}${apellido}`.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '') + '@frt.utn.edu.ar';
-    return { id: newId(), name, institutionalEmail: email, legajo };
+    return { id: sid(), name, institutionalEmail: email, legajo };
   });
   const demoStudent = students[0];
 
@@ -116,7 +122,7 @@ export function buildSeed(now = new Date()): MockDb {
       const created = addDays(start, -10);
       const extraNotes = note === nInscripcion ? [nCambio.id] : [];
       intervals.push({
-        id: newId(),
+        id: sid(),
         number: intervalNumber++,
         name: `${prefix} ${mes} ${start.getFullYear()}`,
         description: `Intervalo para presentar ${note.name.toLowerCase()} durante ${mes.toLowerCase()} de ${start.getFullYear()}.`,
@@ -154,7 +160,7 @@ export function buildSeed(now = new Date()): MockDb {
     const attended = status === 'ATTENDED';
     const attention = attended ? Math.round(180 + rand() * 300) : null;
     turns.push({
-      id: newId(),
+      id: sid(),
       securityCode: securityCode(rand),
       date: date.toISOString(),
       dateAttended: attended ? new Date(date.getTime() + (attention ?? 0) * 1000).toISOString() : null,
@@ -216,19 +222,17 @@ export function buildSeed(now = new Date()): MockDb {
     }
   }
 
-  // Turnos de la alumna de demo (GOMEZ, LUCIA): 6 pendientes + historial.
+  // Turnos de la alumna de demo (GOMEZ, LUCIA): 3 pendientes (uno por nota, Regla 01)
+  // + historial. Quedan BAJA DE REGULARIDAD y RECURSADO libres para mostrar "Sacar turno".
   const nextBusiness = (from: number) => {
     let d = addDays(today, from);
     while (isWeekend(d)) d = addDays(d, 1);
     return d;
   };
   const demoPlan: [number, number, number, Note, Turn['status']][] = [
-    [5, 10, 30, nAmpliacion, 'PENDING'],
+    [2, 16, 30, nAmpliacion, 'PENDING'], // a menos de 3 días: no se puede cancelar
     [7, 9, 0, nInscripcion, 'PENDING'],
     [9, 11, 20, nCambio, 'PENDING'],
-    [12, 16, 30, nRecursado, 'PENDING'],
-    [15, 8, 40, nBaja, 'PENDING'],
-    [2, 16, 30, nAmpliacion, 'PENDING'], // a menos de 3 días: no se puede cancelar
     [-6, 10, 30, nInscripcion, 'ATTENDED'],
     [-12, 11, 20, nBaja, 'CANCELLED'],
     [-20, 10, 0, nCambio, 'LOST'],
@@ -255,7 +259,7 @@ export function buildSeed(now = new Date()): MockDb {
   const news: News[] = newsData.map(([offset, h, m, title, description, status, isActive], i) => {
     const datePost = atTime(addDays(today, offset), h, m).toISOString();
     return {
-      id: newId(),
+      id: sid(),
       title,
       description,
       datePost,

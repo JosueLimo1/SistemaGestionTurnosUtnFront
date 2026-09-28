@@ -35,7 +35,7 @@
   color: var(--c-red);
 }
 .orange {
-  color: var(--c-accent);
+  color: var(--c-accent-alt);
 }
 .dark {
   color: var(--c-title);

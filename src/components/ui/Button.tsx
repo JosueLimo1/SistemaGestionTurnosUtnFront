@@ -12,7 +12,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   block?: boolean;
   /** Tamaño de texto/alto. md = 14 px (default). */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'tall' | 'modal' | 'lg' | 'xl';
 }
 
 export function Button({ variant = 'primary', block, size = 'md', className, type = 'button', ...rest }: Props) {

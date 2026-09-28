@@ -97,6 +97,18 @@
   font-size: 16px;
   padding: 14px 18px;
 }
+/* Botones de formularios (CANCELAR / SOLICITAR TURNO): padding 13 12 */
+.tall.primary,
+.tall.outline,
+.tall.danger {
+  padding: 13px 12px;
+}
+/* Botones de modales (VOLVER / CONFIRMAR): padding 14 10 */
+.modal.primary,
+.modal.outline,
+.modal.danger {
+  padding: 14px 10px;
+}
 .xl.primary,
 .xl.outline,
 .xl.danger {

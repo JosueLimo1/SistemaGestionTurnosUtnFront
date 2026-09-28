@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { api, type LoginRequest, type SessionUser } from '../api';
 
 const STORAGE_KEY = 'sgt-utn:session';
@@ -22,6 +22,22 @@ function readStored(): SessionUser | null {
 
 export function SessionProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<SessionUser | null>(readStored);
+
+  // Revalida la sesión guardada al abrir la app (el usuario pudo haber sido borrado o cambiado).
+  useEffect(() => {
+    const stored = readStored();
+    if (!stored) return;
+    api.auth
+      .me(stored)
+      .then((fresh) => {
+        setUser(fresh);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+      })
+      .catch(() => {
+        setUser(null);
+        localStorage.removeItem(STORAGE_KEY);
+      });
+  }, []);
 
   const login = useCallback(async (req: LoginRequest) => {
     const u = await api.auth.login(req);

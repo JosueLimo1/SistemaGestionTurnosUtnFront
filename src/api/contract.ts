@@ -33,6 +33,8 @@ export interface Api {
   auth: {
     login(req: LoginRequest): Promise<SessionUser>;
     registerStudent(req: RegisterRequest): Promise<Student>;
+    /** Revalida la sesión guardada (en el backend real: GET /api/Auth/me). */
+    me(user: SessionUser): Promise<SessionUser>;
   };
 
   turns: {

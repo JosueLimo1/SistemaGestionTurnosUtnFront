@@ -1,0 +1,144 @@
+/* Contenedor: padding 10, gap 5, radio 23, ancho máximo 470 (7 celdas de 60 + 6 gaps de 5 + padding) */
+.calendar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  max-width: 470px;
+  padding: 10px;
+  border-radius: 23px;
+}
+.inline {
+  background: rgba(255, 255, 255, 0.39);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.floating {
+  background: var(--c-white);
+  border: 3px solid #211f21;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.isDisabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.header {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+.month {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.arrow {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--c-white);
+}
+.arrow:hover:not(:disabled) {
+  background: #f1f1f1;
+}
+.flip {
+  transform: scaleX(-1);
+}
+.monthName {
+  flex: 1 0 0;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.3;
+  letter-spacing: -0.32px;
+  color: var(--c-calendar-text);
+  white-space: nowrap;
+}
+.monthName strong {
+  font-weight: 700;
+}
+.monthName span {
+  font-weight: 400;
+}
+.separator {
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.1);
+}
+.week {
+  width: 100%;
+  display: flex;
+  gap: 3px;
+  opacity: 0.5;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--c-calendar-text);
+  text-align: center;
+  text-transform: uppercase;
+}
+.week span {
+  flex: 1 0 0;
+}
+
+.row {
+  width: 100%;
+  max-width: 450px;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+.day {
+  flex: 0 1 60px;
+  aspect-ratio: 1;
+  max-width: 60px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-calendar-text);
+  cursor: pointer;
+}
+.day:hover:not(:disabled):not(.selected) {
+  background: rgba(252, 73, 20, 0.12);
+}
+.day:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 1px;
+}
+.off {
+  opacity: 0.1;
+  cursor: default;
+}
+.weekend {
+  background: rgba(255, 29, 83, 0.12);
+}
+.inRange,
+.inRange.weekend {
+  background: rgba(252, 73, 20, 0.45);
+  color: var(--c-white);
+}
+.selected,
+.selected.weekend {
+  background: var(--c-accent);
+  color: var(--c-white);
+  font-weight: 700;
+  opacity: 1;
+}
