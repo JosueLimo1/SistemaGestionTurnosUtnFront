@@ -18,7 +18,7 @@ export interface MockDb {
   passwords: Record<string, string>;
 }
 
-export const DB_VERSION = 4;
+export const DB_VERSION = 5;
 export const DEMO_PASSWORD = 'utn2026';
 
 function rng(seed: number) {
@@ -257,16 +257,21 @@ export function buildSeed(now = new Date()): MockDb {
     [-21, 12, 0, 'Nueva sección de noticias', 'Todas las comunicaciones del Departamento de Alumnos se publican en esta sección. Revisala antes de solicitar un turno.', 'POSTED', true],
   ];
   const news: News[] = newsData.map(([offset, h, m, title, description, status, isActive], i) => {
-    const datePost = atTime(addDays(today, offset), h, m).toISOString();
+    const post = atTime(addDays(today, offset), h, m);
+    const datePost = post.toISOString();
+    // Creada 1–3 días antes; las programadas se crearon antes de hoy.
+    const created = new Date(Math.min(post.getTime(), Date.now()) - (1 + (i % 3)) * 86400000 - 3600000 * (i % 5));
     return {
       id: sid(),
+      number: 135 + i,
       title,
       description,
       datePost,
       isActive,
       status,
       workerId: workers[i % workers.length].id,
-      updatedAt: datePost,
+      createdAt: created.toISOString(),
+      updatedAt: i === 0 ? new Date(created.getTime() + 3600000 * 5).toISOString() : created.toISOString(),
     };
   });
 

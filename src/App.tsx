@@ -14,6 +14,9 @@ import ListadoTurnos from './pages/worker/turnos/ListadoTurnos';
 import DetalleTurno from './pages/worker/turnos/DetalleTurno';
 import Notas from './pages/worker/notas/Notas';
 import NotaNueva from './pages/worker/notas/NotaNueva';
+import NoticiasWorker from './pages/worker/noticias/Noticias';
+import NoticiaForm from './pages/worker/noticias/NoticiaForm';
+import NoticiaDetalleWorker from './pages/worker/noticias/NoticiaDetalleWorker';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -58,10 +61,10 @@ export default function App() {
         <Route path="turnos/atencion" element={<Atencion />} />
         <Route path="turnos/listado" element={<ListadoTurnos />} />
         <Route path="turnos/:id" element={<DetalleTurno />} />
-        <Route path="noticias" element={<Placeholder title="NOTICIAS" />} />
-        <Route path="noticias/nueva" element={<Placeholder title="NUEVA NOTICIA" />} />
-        <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />
-        <Route path="noticias/:id/editar" element={<Placeholder title="EDITAR NOTICIA" />} />
+        <Route path="noticias" element={<NoticiasWorker />} />
+        <Route path="noticias/nueva" element={<NoticiaForm mode="new" />} />
+        <Route path="noticias/:id" element={<NoticiaDetalleWorker />} />
+        <Route path="noticias/:id/editar" element={<NoticiaForm mode="edit" key="edit" />} />
         <Route path="notas" element={<Notas />} />
         <Route path="notas/nueva" element={<NotaNueva />} />
         <Route path="intervalos" element={<Placeholder title="INTERVALOS" />} />

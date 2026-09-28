@@ -439,15 +439,20 @@ export const mockApi: Api = {
       if (scheduled && scheduled.getTime() <= Date.now()) {
         throw new ApiError('La fecha de publicación programada debe ser futura.', 400);
       }
+      if (title.trim().length > 100) throw new ApiError('El título no puede superar los 100 caracteres.', 400);
+      if (description.trim().length < 20) throw new ApiError('La descripción debe tener al menos 20 caracteres.', 400);
+      const nowIso = new Date().toISOString();
       const n: News = {
         id: newId(),
+        number: Math.max(0, ...db().news.map((x) => x.number)) + 1,
         title: title.trim(),
         description: description.trim(),
         datePost: (scheduled ?? new Date()).toISOString(),
         isActive: true,
         status: scheduled ? 'PENDING' : 'POSTED',
         workerId,
-        updatedAt: new Date().toISOString(),
+        createdAt: nowIso,
+        updatedAt: nowIso,
       };
       db().news.push(n);
       persist();

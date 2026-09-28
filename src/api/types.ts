@@ -79,6 +79,8 @@ export interface Turn {
 
 export interface News {
   id: Id;
+  /** Número visible (#0142). Presentación, no existe en el backend. */
+  number: number;
   title: string;
   description: string;
   /** Fecha de publicación (real o programada). */
@@ -86,6 +88,7 @@ export interface News {
   isActive: boolean;
   status: NewsStatus;
   workerId: Id | null;
+  createdAt: string;
   updatedAt: string;
 }
 
