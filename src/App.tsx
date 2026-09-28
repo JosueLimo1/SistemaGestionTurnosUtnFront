@@ -3,7 +3,6 @@ import { useSession } from './auth/SessionContext';
 import { homeFor, RequireRole, StudentLayout, WorkerLayout } from './components/layout/Layouts';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
-import Placeholder from './pages/Placeholder';
 import StudentHome from './pages/student/Home';
 import SacarTurno from './pages/student/SacarTurno';
 import MisTurnos from './pages/student/MisTurnos';
@@ -20,6 +19,7 @@ import NoticiaDetalleWorker from './pages/worker/noticias/NoticiaDetalleWorker';
 import Intervalos from './pages/worker/intervalos/Intervalos';
 import IntervaloForm from './pages/worker/intervalos/IntervaloForm';
 import IntervaloDetalle from './pages/worker/intervalos/IntervaloDetalle';
+import Estadisticas from './pages/worker/estadisticas/Estadisticas';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -59,7 +59,7 @@ export default function App() {
         }
       >
         <Route index element={<Navigate to="turnos/atencion" replace />} />
-        <Route path="estadisticas" element={<Placeholder title="ESTADÍSTICAS" />} />
+        <Route path="estadisticas" element={<Estadisticas />} />
         <Route path="turnos" element={<Navigate to="atencion" replace />} />
         <Route path="turnos/atencion" element={<Atencion />} />
         <Route path="turnos/listado" element={<ListadoTurnos />} />

@@ -1,0 +1,483 @@
+/* Main: padding 15, gap 15 */
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  padding: 15px;
+}
+
+/* ---------- "Busqueda filtro": blanco 70 %, padding 10 20, gap 20 ---------- */
+.filter {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 20px;
+  background: var(--bg-card);
+  box-shadow: var(--sh-card);
+}
+.filterHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.filterTitle {
+  font-size: 24px;
+  line-height: 35px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+/* Botón/caja blanca con borde #AEAEAE 2 px, radio 13 (EXPORTAR y navegador de fecha) */
+.boxBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px;
+  background: var(--c-white);
+  border: 2px solid #aeaeae;
+  border-radius: 13px;
+  font-size: 16px;
+  line-height: 34.847px;
+  font-weight: 700;
+  color: var(--c-black);
+  white-space: nowrap;
+}
+button.boxBtn:hover {
+  background: #f6f6f6;
+}
+.periods {
+  display: flex;
+  border: 2px solid #b3b3b3;
+  background: var(--c-white);
+}
+.period {
+  flex: 1 0 0;
+  min-width: 0;
+  min-height: 40px;
+  padding: 2px 6px;
+  border: 0;
+  border-right: 2px solid #b3b3b3;
+  background: var(--c-white);
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 600;
+  color: var(--c-black);
+  overflow-wrap: anywhere;
+}
+.period:last-child {
+  border-right: 0;
+}
+.period:hover:not(.periodActive) {
+  background: #f6f6f6;
+}
+.periodActive {
+  background: var(--c-accent-alt);
+  color: var(--c-white);
+  font-weight: 700;
+}
+.selects {
+  display: flex;
+  gap: 10px;
+}
+.selects > * {
+  flex: 1 0 0;
+  min-width: 0;
+}
+.selectField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.selectBox {
+  position: relative;
+  display: flex;
+  height: 44px;
+  border: 1px solid #e8ebec;
+  border-radius: 8px;
+  background: var(--c-white);
+}
+.selectBox:focus-within {
+  border-color: var(--c-accent);
+}
+.select {
+  flex: 1 0 0;
+  min-width: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 10px 52px 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+  color: #323639;
+  outline: none;
+  cursor: pointer;
+}
+.selectEmpty {
+  color: #a0a8ac;
+}
+.selectSuffix {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid #e8ebec;
+  pointer-events: none;
+}
+.selectHelp {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: #757d82;
+}
+.helpIcon {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.filterFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.clearBtn {
+  height: 50px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 25px;
+  background: var(--c-white);
+  box-shadow: inset 0 0 0 1.5px var(--c-black);
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.clearBtn:hover {
+  background: #f6f6f6;
+}
+.navWrap {
+  position: relative;
+}
+.dateNav {
+  gap: 30px;
+  height: 50px;
+}
+.navArrow {
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.navArrow img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.navArrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.flip {
+  transform: rotate(180deg);
+}
+.navLabel {
+  font-size: 20px;
+  line-height: 35px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.calPop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 40;
+  width: min(470px, calc(100vw - 24px));
+}
+.calFoot {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 6px 2px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+.card[aria-busy='true'] {
+  opacity: 0.7;
+}
+.cardTitle {
+  font-size: 20px;
+  line-height: 35px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.boxes {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+.total {
+  flex: 0 0 121px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: var(--bg-row);
+  box-shadow: 0 0 8px #2d2d2c, inset 0 0 8px #2d2c2c;
+  font-size: 24px;
+  line-height: 35px;
+  font-weight: 800;
+  color: var(--c-title);
+}
+.total strong {
+  font-weight: 800;
+  color: var(--c-black);
+}
+.vline {
+  width: 1px;
+  background: var(--c-black);
+  align-self: stretch;
+}
+.darkBox {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 10px;
+  border: 0;
+  border-radius: var(--r-chip);
+  background: var(--bg-dark);
+  box-shadow: var(--sh-btn);
+  color: var(--c-white);
+}
+.darkBox:hover,
+.total:hover {
+  filter: brightness(1.15);
+}
+.darkLabel {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.darkValue {
+  font-size: 24px;
+  line-height: 35px;
+  font-weight: 700;
+}
+.darkRule {
+  width: 100%;
+  height: 1px;
+  background: var(--c-white);
+}
+.darkPct {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 800;
+}
+.noData {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-muted);
+}
+
+/* KPIs: tres cards chicas */
+.kpis {
+  display: flex;
+  gap: 10px;
+}
+.kpi {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--c-black);
+}
+.kpi strong {
+  font-weight: 700;
+}
+.kpi span {
+  font-weight: 500;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.notesCard {
+  gap: 5px;
+}
+.chartCard {
+  align-self: center;
+  width: min(430px, 100%);
+  gap: 5px;
+}
+.chart {
+  width: 100%;
+  height: auto;
+}
+.chartAxis {
+  font-size: 12px;
+  fill: var(--c-muted);
+}
+.chartValue {
+  font-size: 12px;
+  fill: var(--c-black);
+}
+.chartLegend {
+  font-size: 12px;
+  fill: var(--c-muted);
+}
+.extreme {
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+}
+.extreme strong {
+  font-weight: 700;
+}
+
+/* Filas con barra: ranking de notas / intervalo */
+.row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 25px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  border-radius: 12px;
+}
+.rowButton {
+  cursor: pointer;
+}
+.rowButton:hover {
+  background: rgba(252, 73, 20, 0.06);
+}
+.rowActive {
+  background: rgba(252, 73, 20, 0.12);
+}
+.rowLabel {
+  font-size: 14px;
+  line-height: 35px;
+  font-weight: 500;
+  color: var(--c-black);
+}
+.rowLine {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+.rowBar {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.rowTrack {
+  flex: 1 0 0;
+  height: 15px;
+  border-radius: 14px;
+  background: var(--c-border-soft);
+  overflow: hidden;
+}
+.rowFill {
+  display: block;
+  height: 100%;
+  border-radius: 14px;
+  background: var(--c-accent);
+}
+.rowPct {
+  width: 34px;
+  font-size: 12px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--c-black);
+}
+.rowValue {
+  min-width: 27px;
+  text-align: right;
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.question {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+}
+
+@media (max-width: 1023px) {
+  .kpi {
+    border-radius: var(--r-card);
+  }
+  .darkLabel {
+    font-size: 13px;
+  }
+}
+/* Escritorio: 3 KPIs en fila de 460 y fila inferior Notas | Gráfico | Intervalo */
+@media (min-width: 1024px) {
+  .kpis {
+    gap: 15px;
+  }
+  .kpi {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: baseline;
+  }
+  .bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 430px;
+    align-items: start;
+  }
+  .bottom3 {
+    grid-template-columns: minmax(0, 1fr) 430px minmax(0, 1fr);
+  }
+  .chartCard {
+    width: 430px;
+  }
+}
+/* Período + selects: gap 15 (bloque "filtros de estadistica") */
+.filtersBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+/* En Figma los bordes son internos: EXPORTAR mide 45 y la barra de períodos 40 en total */
+.filterHead .boxBtn {
+  height: 45px;
+}
+.period {
+  min-height: 36px;
+}
