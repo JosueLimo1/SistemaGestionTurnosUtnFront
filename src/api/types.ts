@@ -137,6 +137,8 @@ export interface FilterTurn {
   dateEnd?: string;
   pageNumber?: number;
   pageSize?: number;
+  /** Orden (solo front): 'upcoming' = pendientes próximos primero; por defecto fecha descendente. */
+  sort?: 'upcoming' | 'date_desc' | 'date_asc';
 }
 
 /** TurnModel.ResponsePagination (TurnItems / Total) */

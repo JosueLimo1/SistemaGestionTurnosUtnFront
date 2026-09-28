@@ -288,7 +288,15 @@ export const mockApi: Api = {
       }
       if (f.dateStart) items = items.filter((t) => new Date(t.date) >= startOfDay(new Date(f.dateStart!)));
       if (f.dateEnd) items = items.filter((t) => new Date(t.date) <= endOfDay(new Date(f.dateEnd!)));
-      items.sort((a, b) => b.date.localeCompare(a.date));
+      if (f.sort === 'upcoming') {
+        const now = Date.now();
+        const rank = (t: Turn) => (t.status === 'PENDING' && new Date(t.date).getTime() >= now - 3600000 ? 0 : 1);
+        items.sort((a, b) => rank(a) - rank(b) || (rank(a) === 0 ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)));
+      } else if (f.sort === 'date_asc') {
+        items.sort((a, b) => a.date.localeCompare(b.date));
+      } else {
+        items.sort((a, b) => b.date.localeCompare(a.date));
+      }
       const page = paginate(items, f.pageNumber, f.pageSize ?? 6);
       return delay({ items: page.items.map(enrichTurn), total: page.total });
     },

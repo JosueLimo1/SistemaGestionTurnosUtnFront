@@ -100,13 +100,12 @@ export function Calendar({
             const outside = d.getMonth() !== month.getMonth();
             const off = outside || (isDisabled?.(d) ?? false);
             const isSel = (selected && sameDay(d, selected)) || (start && sameDay(d, start)) || (end && sameDay(d, end));
-            const weekend = d.getDay() === 0 || d.getDay() === 6;
             const cls = [
               styles.day,
               off ? styles.off : '',
               isSel ? styles.selected : '',
               !isSel && inRange(d) ? styles.inRange : '',
-              variant === 'floating' && weekend && !outside ? styles.weekend : '',
+              '',
             ].join(' ');
             return (
               <button
