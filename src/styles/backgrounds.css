@@ -1,0 +1,45 @@
+/*
+ * Fondos radiales naranja → blanco, copiados tal cual del Figma (dos radialGradient superpuestos).
+ * - "auth": pantallas de Login y Registro.
+ * - "app":  pantallas internas (alumno y worker).
+ * Móvil usa el degradado del frame de 700px; escritorio (>= 1024px) el del frame de 1440px.
+ */
+
+.bg-auth,
+.bg-app {
+  min-height: 100vh;
+  background-color: var(--bg-page);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+}
+
+/* ---------- Móvil (frame 700 px) ---------- */
+.bg-auth,
+.bg-app {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 700 840' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(-28.152 6.4624 -7.0158 -67.142 673.02 702.19)'><stop stop-color='rgba(237,74,34,0.76)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.665)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.57)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.38)' offset='0.64188'/><stop stop-color='rgba(248,248,248,0)' offset='0.92314'/></radialGradient></defs></svg>"),
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 700 840' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(24.603 18.369 -15.866 58.791 -34.028 321.97)'><stop stop-color='rgba(237,74,34,0.7)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.7375)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.775)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.85)' offset='0.64188'/><stop stop-color='rgba(245,204,194,0.925)' offset='0.78251'/><stop stop-color='rgba(248,248,248,1)' offset='0.92314'/></radialGradient></defs></svg>");
+}
+
+/* Pantallas internas en móvil: degradado del frame "Celular Main Alumno" (700 x 1010). */
+.bg-app {
+  background-image:
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 700 1010' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(-28.152 7.7703 -7.0158 -80.73 673.02 844.3)'><stop stop-color='rgba(237,74,34,0.76)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.665)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.57)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.38)' offset='0.64188'/><stop stop-color='rgba(248,248,248,0)' offset='0.92314'/></radialGradient></defs></svg>"),
+    url("data:image/svg+xml;utf8,<svg viewBox='0 0 700 1010' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(24.603 22.087 -15.866 70.69 -34.028 387.13)'><stop stop-color='rgba(237,74,34,0.7)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.7375)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.775)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.85)' offset='0.64188'/><stop stop-color='rgba(245,204,194,0.925)' offset='0.78251'/><stop stop-color='rgba(248,248,248,1)' offset='0.92314'/></radialGradient></defs></svg>");
+}
+
+/* ---------- Escritorio (frame 1440 px) ---------- */
+@media (min-width: 1024px) {
+  .bg-auth {
+    background-image:
+      url("data:image/svg+xml;utf8,<svg viewBox='0 0 1440 1024' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(-57.913 7.878 -14.432 -81.849 1384.5 856)'><stop stop-color='rgba(237,74,34,0.76)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.665)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.57)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.38)' offset='0.64188'/><stop stop-color='rgba(248,248,248,0)' offset='0.92314'/></radialGradient></defs></svg>"),
+      url("data:image/svg+xml;utf8,<svg viewBox='0 0 1440 1024' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(50.611 22.393 -32.638 71.67 -70 392.5)'><stop stop-color='rgba(237,74,34,0.7)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.7375)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.775)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.85)' offset='0.64188'/><stop stop-color='rgba(245,204,194,0.925)' offset='0.78251'/><stop stop-color='rgba(248,248,248,1)' offset='0.92314'/></radialGradient></defs></svg>");
+  }
+
+  .bg-app {
+    background-image:
+      url("data:image/svg+xml;utf8,<svg viewBox='0 0 1440 1024' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(-62.7 7.65 -10.758 -88.172 1384.5 856)'><stop stop-color='rgba(237,74,34,0.76)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.665)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.57)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.38)' offset='0.64188'/><stop stop-color='rgba(248,248,248,0)' offset='0.92314'/></radialGradient></defs></svg>"),
+      url("data:image/svg+xml;utf8,<svg viewBox='0 0 1440 1024' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'><rect x='0' y='0' height='100%' width='100%' fill='url(%23grad)' opacity='1'/><defs><radialGradient id='grad' gradientUnits='userSpaceOnUse' cx='0' cy='0' r='10' gradientTransform='matrix(54.7 23.7 -33.328 76.922 -70 392.5)'><stop stop-color='rgba(237,74,34,0.7)' offset='0.36063'/><stop stop-color='rgba(238,96,61,0.7375)' offset='0.43094'/><stop stop-color='rgba(240,117,87,0.775)' offset='0.50126'/><stop stop-color='rgba(242,161,141,0.85)' offset='0.64188'/><stop stop-color='rgba(245,204,194,0.925)' offset='0.78251'/><stop stop-color='rgba(248,248,248,1)' offset='0.92314'/></radialGradient></defs></svg>");
+  }
+}

@@ -1,0 +1,105 @@
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  text-transform: uppercase;
+  transition: filter 0.15s ease, opacity 0.15s ease, transform 0.05s ease;
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 2px;
+}
+.block {
+  width: 100%;
+}
+
+/* Naranja de Login ("INGRESAR"): imagen naranja + borde #ffc6b2, radio 25 */
+.orange {
+  color: var(--c-white);
+  font-size: 16px;
+  line-height: 34.847px;
+  padding: 0 20px;
+  border: 2px solid var(--c-pill-border);
+  border-radius: var(--r-nav);
+  background: url('../../assets/pill-naranja.png') center / cover no-repeat, var(--c-accent-alt);
+}
+.orange:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+
+/* Negro de Login/Registro ("REGISTRARSE"): radio 20.5 + drop-shadow */
+.authBlack {
+  color: var(--c-white);
+  background: var(--c-black);
+  font-size: 14px;
+  line-height: 35px;
+  padding: 0 8px;
+  border-radius: var(--r-pill-auth);
+  filter: var(--sh-drop-black-btn);
+}
+
+/* Botones pill del resto de la app */
+.primary,
+.outline,
+.danger {
+  border-radius: var(--r-pill);
+  padding: 10px 18px;
+  font-size: 14px;
+  line-height: 17px;
+}
+.primary {
+  color: var(--c-white);
+  background: var(--c-black);
+  box-shadow: var(--sh-btn);
+}
+.outline {
+  color: var(--c-black);
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--c-black);
+}
+.outline:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.04);
+}
+.danger {
+  color: var(--c-white);
+  background: var(--c-red);
+  box-shadow: var(--sh-btn);
+}
+.primary:hover:not(:disabled),
+.danger:hover:not(:disabled) {
+  filter: brightness(1.12);
+}
+
+/* Tamaños (solo aplican a primary/outline/danger) */
+.sm.primary,
+.sm.outline,
+.sm.danger {
+  font-size: 12px;
+  padding: 6px 12px;
+}
+.lg.primary,
+.lg.outline,
+.lg.danger {
+  font-size: 16px;
+  padding: 14px 18px;
+}
+.xl.primary,
+.xl.outline,
+.xl.danger {
+  font-size: 20px;
+  padding: 18px 10px;
+}

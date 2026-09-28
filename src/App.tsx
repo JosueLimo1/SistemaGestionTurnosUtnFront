@@ -1,0 +1,66 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { useSession } from './auth/SessionContext';
+import { homeFor, RequireRole, StudentLayout, WorkerLayout } from './components/layout/Layouts';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Placeholder from './pages/Placeholder';
+
+function RootRedirect() {
+  const { user } = useSession();
+  return <Navigate to={user ? homeFor(user.role) : '/login'} replace />;
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<RootRedirect />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/registro" element={<Register />} />
+
+      {/* Alumno */}
+      <Route
+        path="/alumno"
+        element={
+          <RequireRole role="STUDENT">
+            <StudentLayout />
+          </RequireRole>
+        }
+      >
+        <Route index element={<Placeholder title="HOME" />} />
+        <Route path="sacar-turno" element={<Placeholder title="SACAR TURNO" />} />
+        <Route path="mis-turnos" element={<Placeholder title="MIS TURNOS" />} />
+        <Route path="noticias" element={<Placeholder title="NOTICIAS" />} />
+        <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />
+      </Route>
+
+      {/* Worker */}
+      <Route
+        path="/worker"
+        element={
+          <RequireRole role="WORKER">
+            <WorkerLayout />
+          </RequireRole>
+        }
+      >
+        <Route index element={<Navigate to="turnos/atencion" replace />} />
+        <Route path="estadisticas" element={<Placeholder title="ESTADÍSTICAS" />} />
+        <Route path="turnos" element={<Navigate to="atencion" replace />} />
+        <Route path="turnos/atencion" element={<Placeholder title="ATENCIÓN DE TURNOS" />} />
+        <Route path="turnos/listado" element={<Placeholder title="LISTADO DE TURNOS" />} />
+        <Route path="turnos/:id" element={<Placeholder title="DETALLE DEL TURNO" />} />
+        <Route path="noticias" element={<Placeholder title="NOTICIAS" />} />
+        <Route path="noticias/nueva" element={<Placeholder title="NUEVA NOTICIA" />} />
+        <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />
+        <Route path="noticias/:id/editar" element={<Placeholder title="EDITAR NOTICIA" />} />
+        <Route path="notas" element={<Placeholder title="NOTAS" />} />
+        <Route path="notas/nueva" element={<Placeholder title="AGREGAR NOTA" />} />
+        <Route path="intervalos" element={<Placeholder title="INTERVALOS" />} />
+        <Route path="intervalos/nuevo" element={<Placeholder title="NUEVO INTERVALO" />} />
+        <Route path="intervalos/:id" element={<Placeholder title="DETALLE DEL INTERVALO" />} />
+        <Route path="intervalos/:id/editar" element={<Placeholder title="EDITAR INTERVALO" />} />
+      </Route>
+
+      <Route path="*" element={<RootRedirect />} />
+    </Routes>
+  );
+}

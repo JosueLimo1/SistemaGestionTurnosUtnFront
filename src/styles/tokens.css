@@ -1,0 +1,56 @@
+/*
+ * Tokens de diseño extraídos del Figma "Pages" (Sistema de Gestión de Turnos UTN FRT).
+ * Todos los valores son los del archivo de diseño; no los "redondees" a ojo.
+ */
+:root {
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Texto */
+  --c-text: #000000;
+  --c-title: #221e20;
+  --c-muted: #54555a;
+  --c-calendar-text: #292a34;
+
+  /* Acentos */
+  --c-accent: #fc4914;
+  --c-accent-alt: #ff4713;      /* naranja de los segmentos de los desplegables */
+  --c-news-card: #ef4a24;       /* cards naranjas del Home del alumno */
+  --c-red: #de0620;
+  --c-white: #ffffff;
+  --c-black: #000000;
+
+  /* Bordes */
+  --c-border-input: #bcc1c4;
+  --c-border-soft: #d9d9d9;
+  --c-border-strong: #54555a;
+  --c-pill-border: #ffc6b2;
+
+  /* Superficies */
+  --bg-page: #f8f8f8;
+  --bg-header: rgba(255, 255, 255, 0.85);
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-row: rgba(239, 239, 239, 0.73);
+  --bg-dark: rgba(0, 0, 0, 0.82);
+
+  /* Sombras */
+  --sh-header: 0 4px 21.7px 0 rgba(0, 0, 0, 0.25);
+  --sh-card: 0 0 16.3px 0 rgba(82, 82, 82, 0.65);
+  --sh-btn: 0 0 6px 0 rgba(82, 82, 82, 0.65);
+  --sh-pagination: 0 0 10px 0 rgba(82, 82, 82, 0.65);
+  --sh-drop-black-btn: drop-shadow(0 5.467px 2.733px rgba(0, 0, 0, 0.25));
+
+  /* Radios */
+  --r-card: 32px;
+  --r-pill: 22px;
+  --r-pill-auth: 20.5px;
+  --r-nav: 25px;
+  --r-news-card: 18.149px;
+  --r-chip: 10px;
+  --r-input: 8px;
+  --r-pagination: 14px;
+  --r-page-btn: 6px;
+
+  /* Layout */
+  --header-h: 134px;
+  --bp-desktop: 1024px; /* referencia: los @media usan min-width: 1024px */
+}

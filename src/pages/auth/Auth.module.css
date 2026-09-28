@@ -1,0 +1,43 @@
+/* Card de Login/Registro: blanco 70 %, radio 32, padding 20, gap 20 */
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+.title {
+  width: 100%;
+  font-size: 32px;
+  line-height: 34.847px;
+  font-weight: 700;
+  color: var(--c-title);
+  text-align: center;
+}
+.link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 16px;
+  line-height: 34.847px;
+  color: var(--c-title);
+  text-decoration: underline;
+  text-underline-position: from-font;
+}
+.error {
+  width: 100%;
+  margin: -6px 0 -6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-red);
+  text-align: center;
+}
+.modalText {
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--c-title);
+}
