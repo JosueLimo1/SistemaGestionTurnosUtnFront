@@ -17,6 +17,12 @@
   }
 }
 
+.logoRow,
+.nav {
+  max-width: 1400px; /* nav del frame de 1440 (padding 20) */
+  margin-left: auto;
+  margin-right: auto;
+}
 .logoRow {
   display: flex;
   align-items: center;
@@ -195,6 +201,9 @@
   gap: 10px;
   padding: 10px 0;
   background: var(--c-white);
+  /* Figma "Selector …": borde #B3B3B3 al 73 % de 2 px y sombra de card */
+  border: 2px solid rgba(179, 179, 179, 0.73);
+  box-shadow: var(--sh-card);
   z-index: 30;
 }
 .segment {
@@ -238,4 +247,83 @@
 .wItem.active {
   background: url('../../assets/pill-naranja.png') center / cover no-repeat, var(--c-accent-alt);
   border-radius: var(--r-nav);
+}
+
+/* Contenedor de los links: en tablet/escritorio no altera el layout del Figma. */
+.links {
+  display: contents;
+}
+
+/* Perfil activo (Gestión de workers): anillo naranja alrededor del ícono, como en el Figma. */
+.profileActive .iconProfile {
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px var(--c-accent-alt);
+}
+
+/*
+ * Celulares (más angostos que el frame móvil de 700 px): los links no entran en una fila,
+ * así que se deslizan de costado y el ícono de perfil queda fijo a la derecha.
+ */
+@media (max-width: 699px) {
+  .header {
+    padding: 12px 12px 10px;
+    gap: 8px;
+  }
+  .logo {
+    width: 210px;
+    height: 35px;
+  }
+  .nav {
+    gap: 8px;
+    height: 44px;
+  }
+  .links {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 44px;
+    align-items: center;
+    gap: 2px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .links::-webkit-scrollbar {
+    display: none;
+  }
+  .item,
+  .wSlot {
+    flex: 0 0 auto;
+    height: 40px;
+  }
+  .item,
+  .wItem {
+    height: 40px;
+    padding: 0 10px;
+  }
+  .item.active,
+  .wItem.active {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .itemText {
+    font-size: 13px;
+    line-height: 16px;
+  }
+  .wItem.active .itemText {
+    line-height: 16px;
+  }
+  .chevron {
+    width: 14px;
+    height: 14px;
+  }
+  .iconProfile {
+    width: 40px;
+    height: 40px;
+  }
+  .segment {
+    height: auto;
+    padding: 11px 14px;
+  }
 }

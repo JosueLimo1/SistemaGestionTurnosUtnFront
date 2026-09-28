@@ -481,3 +481,108 @@ button.boxBtn:hover {
 .period {
   min-height: 36px;
 }
+
+/* Títulos de las cards e indicadores centrados, como en el Figma (TURNOS, NOTAS, INTERVALO…). */
+.cardTitle {
+  text-align: center;
+}
+.kpi {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ---------- Celulares (más angostos que el frame de 700 px) ---------- */
+@media (max-width: 699px) {
+  .main {
+    padding: 12px 10px 32px;
+  }
+  .filter {
+    padding: 12px 14px;
+    gap: 14px;
+  }
+  .filterTitle {
+    font-size: 20px;
+    line-height: 26px;
+  }
+  .filterHead .boxBtn {
+    height: 40px;
+    font-size: 14px;
+  }
+  /* DIA · SEMANA · MES · AÑO en una fila y PERSONALIZADO debajo */
+  .periods {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .period {
+    font-size: 13px;
+    padding: 2px 4px;
+    overflow-wrap: normal;
+  }
+  .period:nth-child(4) {
+    border-right: 0;
+  }
+  .period:last-child {
+    grid-column: 1 / -1;
+    border-top: 2px solid #b3b3b3;
+  }
+  .selects {
+    flex-direction: column;
+  }
+  .filterFoot {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .clearBtn {
+    height: 44px;
+  }
+  .navWrap {
+    flex: 1 0 100%;
+  }
+  .dateNav {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    height: 48px;
+  }
+  .navLabel {
+    font-size: 18px;
+  }
+  .navArrow img {
+    width: 34px;
+    height: 34px;
+  }
+  /* TOTAL arriba y los 4 estados en grilla de 2 x 2 */
+  .boxes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .total {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    gap: 12px;
+  }
+  .vline {
+    display: none;
+  }
+  .darkLabel {
+    font-size: 14px;
+  }
+  .kpis {
+    flex-direction: column;
+  }
+  .kpi {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 12px 15px;
+    border-radius: 20px;
+  }
+  .row {
+    padding: 0 8px;
+  }
+  .rowLine {
+    gap: 12px;
+  }
+}

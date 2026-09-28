@@ -10,6 +10,17 @@ API real (ASP.NET Core).
 - React 19 + TypeScript + Vite
 - React Router
 - CSS Modules con los tokens exactos del Figma (`src/styles/tokens.css`) — sin frameworks de estilos
+- Fuente Inter incluida en el proyecto (`@fontsource/inter`): la demo funciona sin conexión a internet
+
+### Tamaños de pantalla
+
+El diseño del Figma tiene dos frames: móvil (700 px) y escritorio (1440 px). La app los respeta así:
+
+- **Escritorio (≥ 1024 px):** márgenes del frame de 1440. En monitores más anchos el contenido queda
+  centrado con un ancho máximo de 1440 px (no se estira).
+- **Móvil (700–1023 px):** márgenes del frame de 700.
+- **Celulares (< 700 px):** mismo diseño móvil, con el menú superior deslizable de costado y algunos
+  bloques reacomodados (Home del alumno, Estadísticas, Atención) para que nada se superponga.
 
 ## Cómo correrlo
 
@@ -26,7 +37,12 @@ Abrí <http://localhost:5173>.
 |---|---|---|
 | Alumno (GOMEZ, LUCIA) | `45213` | `utn2026` |
 | Worker administrador (RAMIREZ, PAULA) | `1000` | `utn2026` |
+| Worker administradora (MOLINA, JULIETA) | `1004` | `utn2026` |
 | Worker (SOSA, MARTIN) | `1001` | `utn2026` |
+
+**Gestión de Worker** (solo administradores): menú de perfil → *GESTIÓN DE WORKERS*. Permite registrar
+workers, darles o quitarles el rol de Administrador y eliminarlos, con las reglas 07 y 12 de la
+documentación (solo un Administrador gestiona workers y siempre queda al menos uno).
 
 También se puede crear un alumno nuevo desde **Registrarse**.
 

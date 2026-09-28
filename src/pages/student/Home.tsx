@@ -6,7 +6,7 @@ import { api } from '../../api';
 import { useStudent } from '../../auth/SessionContext';
 import { PageMain } from '../../components/layout/Layouts';
 import { useAsync } from '../../hooks/useAsync';
-import { useIsDesktop } from '../../hooks/useMediaQuery';
+import { useIsDesktop, useMediaQuery } from '../../hooks/useMediaQuery';
 import { formatDate, formatTime } from '../../utils/format';
 import styles from './Home.module.css';
 
@@ -15,7 +15,9 @@ export default function Home() {
   const student = useStudent();
   const desktop = useIsDesktop();
   const navigate = useNavigate();
-  const perPage = desktop ? 5 : 3;
+  // Celulares chicos: 2 cards por fila para que los textos no queden apretados.
+  const narrow = useMediaQuery('(max-width: 559px)');
+  const perPage = desktop ? 5 : narrow ? 2 : 3;
   const [newsPage, setNewsPage] = useState(0);
 
   const news = useAsync(() => api.news.list({ onlyPublished: true, pageSize: 50 }), []);

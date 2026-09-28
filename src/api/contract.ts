@@ -21,6 +21,8 @@ import type {
   TurnRequest,
   TurnView,
   Worker,
+  WorkerFilter,
+  WorkerRequest,
 } from './types';
 
 /*
@@ -85,6 +87,14 @@ export interface Api {
 
   workers: {
     all(): Promise<Worker[]>;
+    /** CU Gestión de Worker — solo un Worker con rol Administrador (Regla 07). */
+    list(filter: WorkerFilter): Promise<Paginated<Worker>>;
+    /** Registrar nuevo Worker (crea el usuario con rol Worker y, opcionalmente, Administrador). */
+    create(req: WorkerRequest, adminId: Id): Promise<Worker>;
+    /** Extender / desasociar el rol Administrador. Regla 12: siempre queda al menos un Administrador. */
+    setAdmin(id: Id, isAdmin: boolean, adminId: Id): Promise<Worker>;
+    /** Eliminar Worker. No se puede eliminar al último Administrador ni al propio usuario. */
+    remove(id: Id, adminId: Id): Promise<void>;
   };
 
   stats: {

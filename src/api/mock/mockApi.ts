@@ -11,6 +11,7 @@ import type {
   StatsResult,
   Turn,
   TurnView,
+  Worker,
 } from '../types';
 import { db, delay, persist } from './db';
 import { newId, securityCode } from './seed';
@@ -37,6 +38,12 @@ const pad = (n: number) => String(n).padStart(2, '0');
 function paginate<T>(items: T[], pageNumber = 1, pageSize = 6): Paginated<T> {
   const start = (Math.max(1, pageNumber) - 1) * pageSize;
   return { items: items.slice(start, start + pageSize), total: items.length };
+}
+
+/** Regla 07: solo un Worker con rol Administrador gestiona workers y roles. */
+function requireAdmin(adminId: string) {
+  const admin = db().workers.find((w) => w.id === adminId);
+  if (!admin?.isAdmin) throw new ApiError('Solo un Administrador puede gestionar workers.', 403, 'FORBIDDEN');
 }
 
 function notFound(what: string): never {
@@ -602,6 +609,80 @@ export const mockApi: Api = {
   workers: {
     async all() {
       return delay(db().workers.slice(), 60);
+    },
+    async list({ search, role, pageNumber = 1, pageSize = 6 }) {
+      let items = db().workers.slice();
+      const q = (search ?? '').trim().toLowerCase();
+      if (q) {
+        // "Sosa, Martín", "martin sosa", "1001" o parte del email.
+        const words = q.normalize('NFD').replace(/[\u0300-\u036f]/g, '').split(/[\s,]+/).filter(Boolean);
+        items = items.filter((w) => {
+          const hay = `${w.name} ${w.email} ${w.legajo}`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+          return words.every((x) => hay.includes(x));
+        });
+      }
+      if (role) items = items.filter((w) => (role === 'ADMIN' ? w.isAdmin : !w.isAdmin));
+      // Por fecha de alta (#W001, #W002…), como en el Figma.
+      items.sort((a, b) => (a.createdAt ?? '').localeCompare(b.createdAt ?? '') || a.legajo - b.legajo);
+      return delay(paginate(items, pageNumber, pageSize), 180);
+    },
+    async create(req, adminId) {
+      const d = db();
+      requireAdmin(adminId);
+      const errors: Record<string, string> = {};
+      const firstName = req.firstName.trim();
+      const lastName = req.lastName.trim();
+      const email = req.email.trim().toLowerCase();
+      if (!firstName) errors.firstName = 'El nombre es obligatorio.';
+      if (!lastName) errors.lastName = 'El apellido es obligatorio.';
+      if (!Number.isInteger(req.legajo) || req.legajo <= 0) errors.legajo = 'El legajo es obligatorio.';
+      else if (d.workers.some((w) => w.legajo === req.legajo) || d.students.some((s) => s.legajo === req.legajo))
+        errors.legajo = 'Ya existe un usuario registrado con este legajo.';
+      if (!email) errors.email = 'El email institucional es obligatorio.';
+      else if (!/^[^@\s]+@([a-z0-9-]+\.)*utn\.edu\.ar$/.test(email)) errors.email = 'Ingresá un mail institucional (@frt.utn.edu.ar).';
+      else if (d.workers.some((w) => w.email === email) || d.students.some((s) => s.institutionalEmail === email))
+        errors.email = 'Ya existe un usuario registrado con este email.';
+      if (req.password.length < 8 || !/[a-z]/i.test(req.password) || !/\d/.test(req.password))
+        errors.password = 'Mínimo 8 caracteres, con letras y números.';
+      if (Object.keys(errors).length) throw new ApiError('Revisá los campos marcados en rojo y volvé a intentarlo.', 400, 'VALIDATION', errors);
+      const worker: Worker = {
+        id: newId(),
+        name: `${lastName}, ${firstName}`.toUpperCase(),
+        phoneNumber: req.phoneNumber.trim(),
+        email,
+        legajo: req.legajo,
+        isAdmin: req.isAdmin,
+        createdAt: new Date().toISOString(),
+      };
+      d.workers.push(worker);
+      d.passwords[`WORKER:${worker.legajo}`] = req.password;
+      persist();
+      return delay(worker, 300);
+    },
+    async setAdmin(id, isAdmin, adminId) {
+      const d = db();
+      requireAdmin(adminId);
+      const w = d.workers.find((x) => x.id === id) ?? notFound('el worker');
+      if (!isAdmin && w.isAdmin && d.workers.filter((x) => x.isAdmin).length === 1) {
+        // Regla 12
+        throw new ApiError('Siempre tiene que haber al menos un Administrador.', 409, 'LAST_ADMIN');
+      }
+      w.isAdmin = isAdmin;
+      persist();
+      return delay({ ...w }, 250);
+    },
+    async remove(id, adminId) {
+      const d = db();
+      requireAdmin(adminId);
+      const w = d.workers.find((x) => x.id === id) ?? notFound('el worker');
+      if (w.id === adminId) throw new ApiError('No podés eliminar tu propio usuario.', 409, 'SELF_DELETE');
+      if (w.isAdmin && d.workers.filter((x) => x.isAdmin).length === 1) {
+        throw new ApiError('Siempre tiene que haber al menos un Administrador.', 409, 'LAST_ADMIN');
+      }
+      d.workers = d.workers.filter((x) => x.id !== id);
+      delete d.passwords[`WORKER:${w.legajo}`];
+      persist();
+      return delay(undefined, 250);
     },
   },
 

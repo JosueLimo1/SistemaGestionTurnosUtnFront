@@ -355,3 +355,11 @@
     line-height: 29px;
   }
 }
+
+/* Celulares: la columna del alumno no puede tener ancho fijo de 190 px. */
+@media (max-width: 699px) {
+  .thead,
+  .tr {
+    grid-template-columns: 46px minmax(0, 1fr) minmax(0, 1fr);
+  }
+}

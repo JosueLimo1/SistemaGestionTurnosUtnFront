@@ -1,0 +1,10 @@
+/* W2 (Figma "Gestión de Worker - Charles"): móvil padding 32 10 40, gap 20 — escritorio 32 50 40 */
+.main {
+  padding: 32px 10px 40px;
+  gap: 20px;
+}
+@media (min-width: 1024px) {
+  .main {
+    padding: 32px 50px 40px;
+  }
+}

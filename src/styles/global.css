@@ -55,3 +55,15 @@ img {
   white-space: nowrap;
   border: 0;
 }
+
+/*
+ * Ancho máximo = frame de escritorio del Figma (1440 px).
+ * En monitores más anchos el contenido queda centrado con los mismos márgenes que en el diseño,
+ * en vez de estirarse; el fondo y la barra del header siguen ocupando todo el ancho.
+ */
+.bg-app > main {
+  width: 100%;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useSession } from './auth/SessionContext';
-import { homeFor, RequireRole, StudentLayout, WorkerLayout } from './components/layout/Layouts';
+import { homeFor, RequireAdmin, RequireRole, StudentLayout, WorkerLayout } from './components/layout/Layouts';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import StudentHome from './pages/student/Home';
@@ -20,6 +20,8 @@ import Intervalos from './pages/worker/intervalos/Intervalos';
 import IntervaloForm from './pages/worker/intervalos/IntervaloForm';
 import IntervaloDetalle from './pages/worker/intervalos/IntervaloDetalle';
 import Estadisticas from './pages/worker/estadisticas/Estadisticas';
+import GestionWorkers from './pages/worker/workers/GestionWorkers';
+import WorkerForm from './pages/worker/workers/WorkerForm';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -74,6 +76,9 @@ export default function App() {
         <Route path="intervalos/nuevo" element={<IntervaloForm mode="new" />} />
         <Route path="intervalos/:id" element={<IntervaloDetalle />} />
         <Route path="intervalos/:id/editar" element={<IntervaloForm mode="edit" />} />
+        {/* Gestión de Worker: solo Worker con rol Administrador (Regla 07) */}
+        <Route path="workers" element={<RequireAdmin><GestionWorkers /></RequireAdmin>} />
+        <Route path="workers/nuevo" element={<RequireAdmin><WorkerForm /></RequireAdmin>} />
       </Route>
 
       <Route path="*" element={<RootRedirect />} />

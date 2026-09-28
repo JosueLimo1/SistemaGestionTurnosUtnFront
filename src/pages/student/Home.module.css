@@ -241,3 +241,30 @@
     margin-top: 0;
   }
 }
+
+/* ---------- Celulares (más angostos que el frame de 700 px) ---------- */
+@media (max-width: 699px) {
+  .card {
+    padding: 16px;
+  }
+  .title {
+    font-size: 26px;
+    line-height: 30px;
+  }
+  .arrows {
+    gap: 12px;
+  }
+  .arrow img {
+    width: 40px;
+    height: 40px;
+  }
+  .row {
+    gap: 14px;
+  }
+  .turnsRow {
+    gap: 14px;
+  }
+  .turnDate {
+    gap: 14px;
+  }
+}

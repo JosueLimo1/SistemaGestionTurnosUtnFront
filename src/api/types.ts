@@ -31,6 +31,8 @@ export interface Worker {
   email: string;
   legajo: number;
   isAdmin: boolean;
+  /** Fecha de alta en el sistema (presentación; el backend puede exponerla como CreatedAt). */
+  createdAt?: string;
 }
 
 export interface Note {
@@ -221,6 +223,27 @@ export interface RegisterRequest {
 export type SessionUser =
   | { role: 'STUDENT'; student: Student }
   | { role: 'WORKER'; worker: Worker };
+
+/* ---------- Gestión de workers (solo rol Administrador) ---------- */
+
+export interface WorkerFilter {
+  /** Busca por nombre, apellido, email o legajo. */
+  search?: string;
+  role?: 'ADMIN' | 'WORKER';
+  pageNumber?: number;
+  pageSize?: number;
+}
+
+export interface WorkerRequest {
+  firstName: string;
+  lastName: string;
+  legajo: number;
+  email: string;
+  phoneNumber: string;
+  /** Contraseña temporal: el worker la cambia después. */
+  password: string;
+  isAdmin: boolean;
+}
 
 /* ---------- Estadísticas ---------- */
 

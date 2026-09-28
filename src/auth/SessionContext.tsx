@@ -7,6 +7,8 @@ interface SessionValue {
   user: SessionUser | null;
   login(req: LoginRequest): Promise<SessionUser>;
   logout(): void;
+  /** Vuelve a leer el usuario en sesión (ej. después de cambiar su propio rol). */
+  refresh(): Promise<void>;
 }
 
 const SessionContext = createContext<SessionValue | null>(null);
@@ -59,7 +61,20 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+  const refresh = useCallback(async () => {
+    const stored = readStored();
+    if (!stored) return;
+    try {
+      const fresh = await api.auth.me(stored);
+      setUser(fresh);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(fresh));
+    } catch {
+      setUser(null);
+      localStorage.removeItem(STORAGE_KEY);
+    }
+  }, []);
+
+  const value = useMemo(() => ({ user, login, logout, refresh }), [user, login, logout, refresh]);
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
 }
 

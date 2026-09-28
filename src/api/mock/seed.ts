@@ -18,7 +18,7 @@ export interface MockDb {
   passwords: Record<string, string>;
 }
 
-export const DB_VERSION = 5;
+export const DB_VERSION = 6;
 export const DEMO_PASSWORD = 'utn2026';
 
 function rng(seed: number) {
@@ -72,11 +72,12 @@ export function buildSeed(now = new Date()): MockDb {
   };
   const pick = <T,>(arr: T[]) => arr[Math.floor(rand() * arr.length)];
 
+  const daysAgo = (n: number) => new Date(now.getTime() - n * 86400000).toISOString();
   const workers: Worker[] = [
-    { id: sid(), name: 'RAMIREZ, PAULA', phoneNumber: '381 555-0101', email: 'pramirez@frt.utn.edu.ar', legajo: 1000, isAdmin: true },
-    { id: sid(), name: 'SOSA, MARTIN', phoneNumber: '381 555-0102', email: 'msosa@frt.utn.edu.ar', legajo: 1001, isAdmin: false },
-    { id: sid(), name: 'PEREZ, LAURA', phoneNumber: '381 555-0103', email: 'lperez@frt.utn.edu.ar', legajo: 1002, isAdmin: false },
-    { id: sid(), name: 'GOMEZ, MARTIN', phoneNumber: '381 555-0104', email: 'mgomez@frt.utn.edu.ar', legajo: 1003, isAdmin: false },
+    { id: sid(), name: 'RAMIREZ, PAULA', phoneNumber: '381 555-0101', email: 'pramirez@frt.utn.edu.ar', legajo: 1000, isAdmin: true, createdAt: daysAgo(540) },
+    { id: sid(), name: 'SOSA, MARTIN', phoneNumber: '381 555-0102', email: 'msosa@frt.utn.edu.ar', legajo: 1001, isAdmin: false, createdAt: daysAgo(410) },
+    { id: sid(), name: 'PEREZ, LAURA', phoneNumber: '381 555-0103', email: 'lperez@frt.utn.edu.ar', legajo: 1002, isAdmin: false, createdAt: daysAgo(300) },
+    { id: sid(), name: 'GOMEZ, MARTIN', phoneNumber: '381 555-0104', email: 'mgomez@frt.utn.edu.ar', legajo: 1003, isAdmin: false, createdAt: daysAgo(200) },
   ];
 
   const noteNames = [
@@ -277,6 +278,11 @@ export function buildSeed(now = new Date()): MockDb {
 
   const passwords: Record<string, string> = {};
   for (const s of students) passwords[`STUDENT:${s.legajo}`] = DEMO_PASSWORD;
+  // Workers extra para "Gestión de Worker" (se agregan al final para no alterar el resto de los datos generados).
+  workers.push(
+    { id: sid(), name: 'MOLINA, JULIETA', phoneNumber: '381 555-0105', email: 'jmolina@frt.utn.edu.ar', legajo: 1004, isAdmin: true, createdAt: daysAgo(150) },
+    { id: sid(), name: 'DIAZ, CAMILA', phoneNumber: '381 555-0106', email: 'cdiaz@frt.utn.edu.ar', legajo: 1005, isAdmin: false, createdAt: daysAgo(40) },
+  );
   for (const w of workers) passwords[`WORKER:${w.legajo}`] = DEMO_PASSWORD;
 
   return { version: DB_VERSION, students, workers, notes, intervals, turns, news, passwords };

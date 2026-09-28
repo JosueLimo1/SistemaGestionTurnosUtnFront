@@ -153,10 +153,11 @@
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 300px);
-    column-gap: 92px;
+    /* 3 columnas de 300 px con 92 px de separación (Figma 1440); en pantallas de 1024–1300 se achican sin desbordar */
+    grid-template-columns: repeat(3, minmax(0, 300px));
+    column-gap: min(92px, 6.4vw);
     row-gap: 16px;
-    width: auto;
+    width: 100%;
     justify-content: center;
   }
   .card {

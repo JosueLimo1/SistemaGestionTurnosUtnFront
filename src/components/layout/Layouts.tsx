@@ -41,6 +41,13 @@ export function RequireRole({ role, children }: { role: Role; children: ReactNod
   return <>{children}</>;
 }
 
+/** Solo Worker con rol Administrador (Gestión de Worker — Regla 07). */
+export function RequireAdmin({ children }: { children: ReactNode }) {
+  const { user } = useSession();
+  if (user?.role !== 'WORKER' || !user.worker.isAdmin) return <Navigate to="/worker" replace />;
+  return <>{children}</>;
+}
+
 export function homeFor(role: Role): string {
   return role === 'STUDENT' ? '/alumno' : '/worker/turnos/atencion';
 }

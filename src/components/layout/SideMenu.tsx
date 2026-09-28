@@ -6,6 +6,7 @@ import iconProfile from '../../assets/icon-profile.png';
 import iconCalendar from '../../assets/icon-calendar.png';
 import iconNotification from '../../assets/icon-notification.png';
 import iconQuestion from '../../assets/icon-question.png';
+import iconWorkers from '../../assets/icon-workers.svg';
 import { api, type Role, type TurnView } from '../../api';
 import { useSession } from '../../auth/SessionContext';
 import { Button } from '../ui/Button';
@@ -100,6 +101,19 @@ export function SideMenu({ role, open, onClose, panel, onPanel }: Props) {
                     <button type="button" className={styles.item} onClick={() => go('notifications')}>
                       <img src={iconNotification} alt="" className={styles.icon} />
                       <span>NOTIFICACIONES</span>
+                    </button>
+                  )}
+                  {user?.role === 'WORKER' && user.worker.isAdmin && (
+                    <button
+                      type="button"
+                      className={styles.item}
+                      onClick={() => {
+                        onClose();
+                        navigate('/worker/workers');
+                      }}
+                    >
+                      <img src={iconWorkers} alt="" className={styles.icon} />
+                      <span>GESTIÓN DE WORKERS</span>
                     </button>
                   )}
                   <button type="button" className={styles.item} onClick={() => go('faq')}>
