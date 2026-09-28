@@ -35,6 +35,8 @@ export interface Worker {
 
 export interface Note {
   id: Id;
+  /** Número visible en la UI (ID: 001). Presentación, no existe en el backend. */
+  number: number;
   name: string;
   workerId: Id | null;
 }

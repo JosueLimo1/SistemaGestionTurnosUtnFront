@@ -476,10 +476,11 @@ export const mockApi: Api = {
   },
 
   notes: {
-    async list({ search, pageNumber, pageSize }) {
+    async list({ search, id, pageNumber, pageSize }) {
       let items = db().notes.slice();
+      if (id) items = items.filter((n) => n.id === id);
       if (search) items = items.filter((n) => n.name.toLowerCase().includes(search.toLowerCase()));
-      items.sort((a, b) => a.name.localeCompare(b.name));
+      items.sort((a, b) => a.number - b.number);
       return delay(paginate(items, pageNumber, pageSize ?? 6));
     },
     async all() {
@@ -489,7 +490,7 @@ export const mockApi: Api = {
       const clean = name.trim().toUpperCase();
       if (!clean) throw new ApiError('El nombre de la nota es obligatorio.', 400);
       if (db().notes.some((n) => n.name === clean)) throw new ApiError('Ya existe una nota con ese nombre.', 409);
-      const note: Note = { id: newId(), name: clean, workerId };
+      const note: Note = { id: newId(), number: Math.max(0, ...db().notes.map((n) => n.number)) + 1, name: clean, workerId };
       db().notes.push(note);
       persist();
       return delay(note);

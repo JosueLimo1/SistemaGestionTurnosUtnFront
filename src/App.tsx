@@ -12,6 +12,8 @@ import StudentNoticiaDetalle from './pages/student/NoticiaDetalle';
 import Atencion from './pages/worker/turnos/Atencion';
 import ListadoTurnos from './pages/worker/turnos/ListadoTurnos';
 import DetalleTurno from './pages/worker/turnos/DetalleTurno';
+import Notas from './pages/worker/notas/Notas';
+import NotaNueva from './pages/worker/notas/NotaNueva';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -60,8 +62,8 @@ export default function App() {
         <Route path="noticias/nueva" element={<Placeholder title="NUEVA NOTICIA" />} />
         <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />
         <Route path="noticias/:id/editar" element={<Placeholder title="EDITAR NOTICIA" />} />
-        <Route path="notas" element={<Placeholder title="NOTAS" />} />
-        <Route path="notas/nueva" element={<Placeholder title="AGREGAR NOTA" />} />
+        <Route path="notas" element={<Notas />} />
+        <Route path="notas/nueva" element={<NotaNueva />} />
         <Route path="intervalos" element={<Placeholder title="INTERVALOS" />} />
         <Route path="intervalos/nuevo" element={<Placeholder title="NUEVO INTERVALO" />} />
         <Route path="intervalos/:id" element={<Placeholder title="DETALLE DEL INTERVALO" />} />

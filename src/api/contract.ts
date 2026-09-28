@@ -68,7 +68,7 @@ export interface Api {
   };
 
   notes: {
-    list(filter: { search?: string; pageNumber?: number; pageSize?: number }): Promise<Paginated<Note>>;
+    list(filter: { search?: string; id?: Id; pageNumber?: number; pageSize?: number }): Promise<Paginated<Note>>;
     all(): Promise<Note[]>;
     create(req: NoteRequest, workerId: Id): Promise<Note>;
     update(id: Id, req: NoteRequest): Promise<Note>;
