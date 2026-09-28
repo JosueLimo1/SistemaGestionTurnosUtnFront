@@ -7,6 +7,8 @@ import Placeholder from './pages/Placeholder';
 import StudentHome from './pages/student/Home';
 import SacarTurno from './pages/student/SacarTurno';
 import MisTurnos from './pages/student/MisTurnos';
+import StudentNoticias from './pages/student/Noticias';
+import StudentNoticiaDetalle from './pages/student/NoticiaDetalle';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -32,8 +34,8 @@ export default function App() {
         <Route index element={<StudentHome />} />
         <Route path="sacar-turno" element={<SacarTurno />} />
         <Route path="mis-turnos" element={<MisTurnos />} />
-        <Route path="noticias" element={<Placeholder title="NOTICIAS" />} />
-        <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />
+        <Route path="noticias" element={<StudentNoticias />} />
+        <Route path="noticias/:id" element={<StudentNoticiaDetalle />} />
       </Route>
 
       {/* Worker */}

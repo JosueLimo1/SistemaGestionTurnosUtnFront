@@ -1,0 +1,75 @@
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 15px;
+}
+/* Card de detalle: padding 30 40, gap 20 */
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 40px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+.top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.back {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 16px;
+  line-height: 34.847px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.backIcon {
+  width: 20px;
+  height: 20px;
+  transform: rotate(90deg);
+}
+.share {
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.share img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+.title {
+  width: 100%;
+  font-size: 24px;
+  line-height: 26.619px;
+  font-weight: 800;
+  color: var(--c-black);
+  text-align: center;
+}
+.body {
+  width: 100%;
+  font-size: 16px;
+  line-height: normal;
+  font-weight: 600;
+  color: var(--c-black);
+  white-space: pre-wrap;
+}
+@media (min-width: 1024px) {
+  .card {
+    max-width: 1100px;
+  }
+}

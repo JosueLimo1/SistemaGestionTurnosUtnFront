@@ -1,0 +1,105 @@
+/* Main: padding 15, gap 15 */
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  padding: 15px;
+}
+.filter {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 20px;
+  background: var(--bg-card);
+  box-shadow: 0 0 9.9px 0 rgba(82, 82, 82, 0.65);
+}
+.filterTitle {
+  font-size: 24px;
+  line-height: 34.847px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.grid[aria-busy='true'] {
+  opacity: 0.6;
+}
+/* Card de noticia: blanco 70 %, radio 32, padding 10 30, gap 20 */
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px 30px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+.info {
+  display: flex;
+  flex-direction: column;
+}
+.date {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  line-height: 34.847px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.title {
+  font-size: 24px;
+  line-height: 26.619px;
+  font-weight: 800;
+  color: var(--c-black);
+  text-align: center;
+}
+.excerpt {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-black);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0;
+  border-radius: var(--r-pill);
+  background: var(--c-black);
+  color: var(--c-white);
+  font-size: 14px;
+  line-height: 32.267px;
+  font-weight: 700;
+  text-decoration: none;
+  filter: drop-shadow(0 5.867px 2.933px rgba(0, 0, 0, 0.25));
+}
+.more:hover {
+  filter: drop-shadow(0 5.867px 2.933px rgba(0, 0, 0, 0.25)) brightness(1.35);
+}
+.pagination {
+  margin-top: auto;
+}
+
+/* Escritorio: 3 columnas con gap 50 */
+@media (min-width: 1024px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 50px;
+  }
+  .more {
+    margin-top: auto;
+  }
+}
