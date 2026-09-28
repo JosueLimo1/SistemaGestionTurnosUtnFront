@@ -4,7 +4,8 @@
   min-height: 100vh;
 }
 
-/* Login / Registro: card centrada; en escritorio con 300 px de margen lateral (frame 1440) */
+/* Login / Registro: card centrada. En escritorio se limita a un ancho de formulario cómodo
+   (con 300 px de margen fijo se estiraba demasiado en pantallas anchas). */
 .authMain {
   flex: 1 0 auto;
   display: flex;
@@ -16,8 +17,21 @@
 }
 @media (min-width: 1024px) {
   .authMain {
-    padding: 15px clamp(15px, 20.83vw, 300px);
+    padding: 40px 20px;
   }
+  .authMain > * {
+    max-width: 560px;
+  }
+}
+
+/* Contenido de alumno/worker: en pantallas anchas se centra con el ancho del frame de Figma (1440). */
+.content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 .main {

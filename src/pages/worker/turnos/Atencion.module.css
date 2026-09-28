@@ -296,13 +296,13 @@
     line-height: 34px;
   }
   .hour {
-    font-size: 56px;
-    line-height: 68px;
+    font-size: 48px;
+    line-height: 58px;
     font-weight: 800;
   }
   .note {
-    font-size: 32px;
-    line-height: 39px;
+    font-size: 28px;
+    line-height: 34px;
   }
   .data {
     gap: 12px;
@@ -317,16 +317,16 @@
     line-height: 17px;
   }
   .timerValue {
-    font-size: 32px;
-    line-height: 39px;
+    font-size: 28px;
+    line-height: 34px;
   }
   .buttons {
     gap: 16px;
   }
   .big {
-    padding: 32px 10px;
-    font-size: 28px;
-    line-height: 34px;
+    padding: 24px 10px;
+    font-size: 24px;
+    line-height: 29px;
   }
   .attend {
     background: transparent;

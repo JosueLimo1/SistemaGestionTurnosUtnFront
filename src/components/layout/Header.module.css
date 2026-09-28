@@ -12,8 +12,9 @@
   box-shadow: var(--sh-header);
 }
 @media (min-width: 1024px) {
+  /* El fondo ocupa todo el ancho; la navegación se alinea con el contenido (máx. 1440). */
   .header {
-    padding: 15px 20px;
+    padding: 15px max(20px, calc((100% - 1400px) / 2));
   }
 }
 

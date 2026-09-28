@@ -18,7 +18,9 @@ export function StudentLayout() {
   return (
     <div className={`bg-app ${styles.page}`}>
       <StudentHeader />
-      <Outlet />
+      <div className={styles.content}>
+        <Outlet />
+      </div>
     </div>
   );
 }
@@ -27,7 +29,9 @@ export function WorkerLayout() {
   return (
     <div className={`bg-app ${styles.page}`}>
       <WorkerHeader />
-      <Outlet />
+      <div className={styles.content}>
+        <Outlet />
+      </div>
     </div>
   );
 }
