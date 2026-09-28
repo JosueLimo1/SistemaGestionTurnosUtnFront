@@ -1,0 +1,374 @@
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  width: 100%;
+  padding: 30px 10px;
+}
+.loading {
+  color: var(--c-muted);
+  font-weight: 600;
+}
+.back {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  box-shadow: inset 0 0 0 1.5px var(--c-black);
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+}
+.back:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+/* Móvil: una columna (resumen, recorrido, alumno, datos) */
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+/* En móvil las columnas "desaparecen" y se reordenan las cards: resumen, recorrido, alumno, datos. */
+.colLeft,
+.colRight,
+.colFull {
+  display: contents;
+}
+.layout .timelineCard {
+  order: 1;
+}
+.layout .side {
+  order: 2;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+.cardTitle {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+
+/* ---------- Resumen ---------- */
+.hero {
+  composes: card;
+  gap: 10px;
+}
+.heroHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.heroTitle {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.heroDate {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-muted);
+  text-align: center;
+}
+.heroHour {
+  font-size: 56px;
+  line-height: 68px;
+  font-weight: 800;
+  color: var(--c-title);
+  text-align: center;
+}
+.heroNote {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+  color: var(--c-title);
+  text-align: center;
+}
+.rule {
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--c-black);
+}
+.metrics {
+  display: flex;
+  gap: 10px;
+}
+.metric {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 16px 8px;
+  border-radius: var(--r-chip);
+  background: var(--bg-dark);
+  box-shadow: var(--sh-btn);
+  color: var(--c-white);
+  text-align: center;
+}
+.metricLabel {
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 800;
+}
+.metricValue {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+}
+
+/* ---------- Recorrido ---------- */
+.timelineCard {
+  composes: card;
+  gap: 14px;
+}
+.steps {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.step {
+  flex: 1 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+.track {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.line {
+  flex: 1 0 0;
+  height: 2px;
+  background: var(--c-black);
+}
+.hidden {
+  visibility: hidden;
+}
+.dot {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--c-black);
+}
+.dotAccent {
+  background: var(--c-accent);
+}
+.dotMuted {
+  background: #c9c9c9;
+}
+.stepLabel {
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 800;
+  color: var(--c-muted);
+}
+.stepDate {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--c-title);
+}
+
+/* ---------- Alumno / Datos ---------- */
+.side {
+  composes: card;
+  gap: 14px;
+}
+.person {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.avatar {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--c-black);
+  color: var(--c-white);
+  font-size: 24px;
+  font-weight: 700;
+}
+.personData {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.personName {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.personMeta {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 500;
+  color: var(--c-muted);
+}
+.dataCard {
+  gap: 12px;
+}
+.rows {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+.row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.row dt {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  color: var(--c-muted);
+}
+.row dd {
+  flex: 1 0 0;
+  margin: 0;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 500;
+  color: var(--c-title);
+  text-align: right;
+}
+
+/* ---------- Escritorio ---------- */
+@media (min-width: 1024px) {
+  .main {
+    padding: 32px 50px;
+    gap: 20px;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 520px;
+    gap: 20px;
+  }
+  .colLeft,
+  .colRight {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .colFull {
+    display: block;
+    grid-column: 1 / -1;
+  }
+  .layout .timelineCard,
+  .layout .side {
+    order: 0;
+  }
+  .hero {
+    flex: 1 0 auto;
+    justify-content: space-between;
+    padding: 24px 28px;
+  }
+  .heroTitle {
+    font-size: 24px;
+    line-height: 29px;
+  }
+  .heroDate {
+    font-size: 26px;
+    line-height: 31px;
+  }
+  .heroHour {
+    font-size: 84px;
+    line-height: 100px;
+  }
+  .heroNote {
+    font-size: 34px;
+    line-height: 41px;
+  }
+  .metric {
+    padding: 22px 8px;
+  }
+  .metricLabel {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .metricValue {
+    font-size: 34px;
+    line-height: 41px;
+  }
+  .side {
+    padding: 24px 28px;
+  }
+  .cardTitle {
+    font-size: 24px;
+    line-height: 29px;
+  }
+  .avatar {
+    width: 88px;
+    height: 88px;
+    font-size: 34px;
+  }
+  .personName {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .personMeta {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .dataCard {
+    flex: 1 0 auto;
+    justify-content: space-between;
+  }
+  .row dt {
+    font-size: 16px;
+    line-height: 19px;
+  }
+  .row dd {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .timelineCard {
+    padding: 22px 28px;
+  }
+  .dot {
+    width: 28px;
+    height: 28px;
+  }
+  .line {
+    height: 3px;
+  }
+  .stepLabel {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .stepDate {
+    font-size: 18px;
+    line-height: 22px;
+  }
+}

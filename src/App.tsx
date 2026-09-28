@@ -9,6 +9,9 @@ import SacarTurno from './pages/student/SacarTurno';
 import MisTurnos from './pages/student/MisTurnos';
 import StudentNoticias from './pages/student/Noticias';
 import StudentNoticiaDetalle from './pages/student/NoticiaDetalle';
+import Atencion from './pages/worker/turnos/Atencion';
+import ListadoTurnos from './pages/worker/turnos/ListadoTurnos';
+import DetalleTurno from './pages/worker/turnos/DetalleTurno';
 
 function RootRedirect() {
   const { user } = useSession();
@@ -50,9 +53,9 @@ export default function App() {
         <Route index element={<Navigate to="turnos/atencion" replace />} />
         <Route path="estadisticas" element={<Placeholder title="ESTADÍSTICAS" />} />
         <Route path="turnos" element={<Navigate to="atencion" replace />} />
-        <Route path="turnos/atencion" element={<Placeholder title="ATENCIÓN DE TURNOS" />} />
-        <Route path="turnos/listado" element={<Placeholder title="LISTADO DE TURNOS" />} />
-        <Route path="turnos/:id" element={<Placeholder title="DETALLE DEL TURNO" />} />
+        <Route path="turnos/atencion" element={<Atencion />} />
+        <Route path="turnos/listado" element={<ListadoTurnos />} />
+        <Route path="turnos/:id" element={<DetalleTurno />} />
         <Route path="noticias" element={<Placeholder title="NOTICIAS" />} />
         <Route path="noticias/nueva" element={<Placeholder title="NUEVA NOTICIA" />} />
         <Route path="noticias/:id" element={<Placeholder title="DETALLE DE NOTICIA" />} />

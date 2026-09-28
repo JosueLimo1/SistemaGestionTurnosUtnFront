@@ -1,0 +1,357 @@
+/* Main worker: padding 30 10 (móvil) / 32 50 (escritorio) */
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  width: 100%;
+  padding: 30px 10px;
+}
+.loading {
+  text-align: center;
+  font-weight: 600;
+  color: var(--c-muted);
+  padding: 40px 0;
+}
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  width: 100%;
+}
+.card {
+  background: var(--bg-card);
+  border-radius: var(--r-card);
+  box-shadow: var(--sh-card);
+}
+
+/* ---------- Turno actual (móvil: padding 15, gap 12) ---------- */
+.current {
+  composes: card;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px;
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.headTitle {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.dateRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--c-title);
+  font-weight: 700;
+}
+.date,
+.hour {
+  font-size: 24px;
+  line-height: 29px;
+}
+.note {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+  color: var(--c-title);
+  text-align: center;
+}
+.rule {
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--c-black);
+}
+.data {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 500;
+  color: var(--c-title);
+}
+.data strong {
+  font-weight: 700;
+  color: var(--c-black);
+  margin-right: 2px;
+}
+/* Caja oscura del cronómetro: negro 82 %, radio 10 */
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 10px 15px;
+  border-radius: var(--r-chip);
+  background: var(--bg-dark);
+  box-shadow: var(--sh-btn);
+  color: var(--c-white);
+}
+.timerRight {
+  text-align: right;
+}
+.timerLabel {
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 800;
+}
+.timerValue {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.error {
+  color: var(--c-red);
+  font-weight: 600;
+  font-size: 14px;
+}
+.buttons {
+  display: flex;
+  gap: 12px;
+}
+.big {
+  flex: 1 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 18px 10px;
+  border: 0;
+  border-radius: var(--r-pill);
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+.big:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.big:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.attend {
+  background: var(--c-white);
+  color: var(--c-black);
+  box-shadow: inset 0 0 0 1.5px var(--c-black);
+}
+.attend:hover:not(:disabled) {
+  background: #f4f4f4;
+}
+.lost {
+  background: var(--c-accent-alt);
+  color: var(--c-white);
+  box-shadow: var(--sh-btn);
+}
+.lost:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+.key {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.12);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 800;
+}
+.keyLight {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- Pendientes de hoy ---------- */
+.pending {
+  composes: card;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+}
+.pendingTitle {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.remaining {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.thead,
+.tr {
+  display: grid;
+  grid-template-columns: 56px 190px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+.thead {
+  padding: 4px 10px;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 800;
+  color: var(--c-muted);
+}
+.tr {
+  padding: 8px 10px;
+  border-radius: var(--r-chip);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--c-title);
+}
+.odd {
+  background: var(--bg-row);
+}
+.even {
+  background: rgba(255, 255, 255, 0.5);
+}
+.tdHour {
+  font-weight: 700;
+  color: var(--c-black);
+}
+.none {
+  padding: 16px 10px;
+  color: var(--c-muted);
+  font-size: 14px;
+}
+.foot {
+  font-size: 12px;
+  line-height: 15px;
+  color: var(--c-muted);
+  text-align: center;
+}
+.question {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+
+/* ---------- Estado vacío (T2) ---------- */
+.empty {
+  composes: card;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 40px 25px;
+  text-align: center;
+}
+.emptyTitle {
+  font-size: 24px;
+  line-height: 29px;
+  font-weight: 700;
+  color: var(--c-title);
+}
+.emptyText {
+  font-size: 16px;
+  line-height: 19px;
+  font-weight: 500;
+  color: var(--c-muted);
+}
+
+/* ---------- Escritorio (1440): dos cards de 640 px de alto ---------- */
+@media (min-width: 1024px) {
+  .main {
+    padding: 32px 50px;
+    gap: 20px;
+  }
+  .columns {
+    flex-direction: row;
+    gap: 50px;
+    min-height: 640px;
+  }
+  .current {
+    flex: 700 1 0;
+    min-width: 0;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 26px 28px;
+  }
+  .pending {
+    flex: 590 1 0;
+    min-width: 0;
+    gap: 12px;
+    padding: 22px 25px;
+  }
+  .date {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .hour {
+    font-size: 56px;
+    line-height: 68px;
+    font-weight: 800;
+  }
+  .note {
+    font-size: 32px;
+    line-height: 39px;
+  }
+  .data {
+    gap: 12px;
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .timer {
+    padding: 16px 22px;
+  }
+  .timerLabel {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .timerValue {
+    font-size: 32px;
+    line-height: 39px;
+  }
+  .buttons {
+    gap: 16px;
+  }
+  .big {
+    padding: 32px 10px;
+    font-size: 28px;
+    line-height: 34px;
+  }
+  .attend {
+    background: transparent;
+  }
+  .lost {
+    background: var(--c-red);
+  }
+  .pendingTitle {
+    font-size: 26px;
+    line-height: 31px;
+  }
+  .remaining {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .empty {
+    min-height: 640px;
+    gap: 26px;
+  }
+  .emptyTitle {
+    font-size: 44px;
+    line-height: 53px;
+  }
+  .emptyText {
+    font-size: 24px;
+    line-height: 29px;
+  }
+}

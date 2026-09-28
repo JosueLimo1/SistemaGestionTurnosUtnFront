@@ -159,9 +159,11 @@ export function WorkerHeader() {
           const open = openSection === s.label;
           if (!s.options) {
             return (
-              <NavLink key={s.label} to={s.to!} className={`${styles.wItem} ${active ? styles.active : ''}`}>
-                <span className={styles.itemText}>{s.label}</span>
-              </NavLink>
+              <div key={s.label} className={styles.wSlot}>
+                <NavLink to={s.to!} className={`${styles.wItem} ${active ? styles.active : ''}`}>
+                  <span className={styles.itemText}>{s.label}</span>
+                </NavLink>
+              </div>
             );
           }
           return (

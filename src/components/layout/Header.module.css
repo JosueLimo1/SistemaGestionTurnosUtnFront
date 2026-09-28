@@ -149,7 +149,7 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 0 20px;
+  padding: 0 4px;
   border: 0;
   background: transparent;
   color: var(--c-black);
@@ -217,4 +217,25 @@
   background: var(--c-accent-alt);
   color: var(--c-white);
   font-weight: 700;
+}
+
+/* Móvil: columnas de 124 px (texto sin padding); el pill activo usa padding mínimo */
+.wItem.active {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+@media (min-width: 1024px) {
+  .wItem {
+    padding: 0 20px;
+  }
+  .wItem.active {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
+/* El fondo del pill activo tiene que ganarle al "background: transparent" de .wItem */
+.wItem.active {
+  background: url('../../assets/pill-naranja.png') center / cover no-repeat, var(--c-accent-alt);
+  border-radius: var(--r-nav);
 }
