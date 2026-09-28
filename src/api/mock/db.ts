@@ -1,4 +1,4 @@
-import { buildSeed, DB_VERSION, type MockDb } from './seed';
+import { buildSeed, dayKey, DB_VERSION, type MockDb } from './seed';
 
 const STORAGE_KEY = 'sgt-utn:mock-db';
 
@@ -9,7 +9,8 @@ function read(): MockDb | null {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as MockDb;
-    return parsed.version === DB_VERSION ? parsed : null;
+    // Los datos de demo son relativos a la fecha: si se generaron otro día se vuelven a crear.
+    return parsed.version === DB_VERSION && parsed.seededOn === dayKey(new Date()) ? parsed : null;
   } catch {
     return null;
   }

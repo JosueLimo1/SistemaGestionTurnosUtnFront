@@ -8,6 +8,8 @@ import type { Interval, News, Note, Student, Turn, Worker } from '../types';
 
 export interface MockDb {
   version: number;
+  /** Día (AAAA-MM-DD) en que se generaron los datos: al cambiar el día se regeneran. */
+  seededOn: string;
   students: Student[];
   workers: Worker[];
   notes: Note[];
@@ -18,7 +20,7 @@ export interface MockDb {
   passwords: Record<string, string>;
 }
 
-export const DB_VERSION = 5;
+export const DB_VERSION = 6;
 export const DEMO_PASSWORD = 'utn2026';
 
 function rng(seed: number) {
@@ -192,21 +194,28 @@ export function buildSeed(now = new Date()): MockDb {
     }
   }
 
-  // Hoy: agenda completa de 08:00 a 19:50 cada 10 minutos.
-  // Los anteriores a la hora actual ya fueron atendidos (o el alumno faltó).
-  if (!isWeekend(today)) {
+  // Hoy (también fines de semana, para poder presentar la demo cualquier día): agenda cada 10 minutos
+  // desde las 08:00. Los anteriores a la hora actual ya fueron atendidos (o el alumno faltó) y
+  // siempre quedan al menos 12 pendientes, así "Atención de turnos" nunca arranca vacía.
+  {
+    const SLOT = 10;
+    const MIN_PENDING = 12;
+    const nowMin = now.getHours() * 60 + now.getMinutes();
+    const lastSlot = 23 * 60 + 50;
+    const currentSlot = Math.floor(nowMin / SLOT) * SLOT;
+    const pendingFrom = Math.max(8 * 60, Math.min(currentSlot, lastSlot - (MIN_PENDING - 1) * SLOT));
+    const pendingTo = Math.min(lastSlot, Math.max(19 * 60 + 50, pendingFrom + (MIN_PENDING - 1) * SLOT));
     let idx = 0;
-    for (let h = 8; h < 20; h++) {
-      for (const m of [0, 10, 20, 30, 40, 50]) {
-        const when = atTime(today, h, m);
-        const student = others[idx % others.length];
-        const note = notes[(idx * 3 + h) % notes.length];
-        idx++;
-        if (rand() < 0.15) continue; // huecos en la agenda
-        const past = when.getTime() < now.getTime() - 10 * 60 * 1000;
-        const status = past ? (rand() < 0.9 ? 'ATTENDED' : 'LOST') : 'PENDING';
-        addTurn(when, note, student, status);
-      }
+    for (let t = 8 * 60; t <= pendingTo; t += SLOT) {
+      const h = Math.floor(t / 60);
+      const when = atTime(today, h, t % 60);
+      const student = others[idx % others.length];
+      const note = notes[(idx * 3 + h) % notes.length];
+      idx++;
+      const pending = t >= pendingFrom;
+      if (!pending && rand() < 0.15) continue; // huecos en la agenda ya atendida
+      const status = pending ? 'PENDING' : rand() < 0.9 ? 'ATTENDED' : 'LOST';
+      addTurn(when, note, student, status);
     }
   }
 
@@ -279,5 +288,9 @@ export function buildSeed(now = new Date()): MockDb {
   for (const s of students) passwords[`STUDENT:${s.legajo}`] = DEMO_PASSWORD;
   for (const w of workers) passwords[`WORKER:${w.legajo}`] = DEMO_PASSWORD;
 
-  return { version: DB_VERSION, students, workers, notes, intervals, turns, news, passwords };
+  return { version: DB_VERSION, seededOn: dayKey(now), students, workers, notes, intervals, turns, news, passwords };
+}
+
+export function dayKey(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
