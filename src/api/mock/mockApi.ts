@@ -14,13 +14,14 @@ import type {
 } from '../types';
 import { db, delay, persist } from './db';
 import { newId, securityCode } from './seed';
+import { ATTENTION_HOURS, DEFAULT_TIME_PER_TURN, intervalCapacity, MAX_TIME_PER_TURN, MIN_TIME_PER_TURN } from '../../utils/agenda';
 
 /*
  * API simulada. Implementa las reglas de negocio de la Especificación Complementaria
  * (documentación del TFI) para que la demo se comporte como el sistema real.
  */
 
-const SLOT_HOURS = { from: 8, to: 20 }; // 08:00 a 19:50
+const SLOT_HOURS = ATTENTION_HOURS; // 08:00 a 20:00
 const CANCEL_MIN_DAYS = 3; // Regla 02
 const CANCEL_MAX_ATTEMPTS = 3; // Regla 04
 const CANCEL_LOCK_MS = 5 * 60 * 1000;
@@ -82,18 +83,17 @@ function enrichInterval(i: Interval): IntervalView {
   };
 }
 
-function slotTimes(day: Date): Date[] {
+/** Horarios del día cada `step` minutos (el tiempo por turno del intervalo). */
+function slotTimes(day: Date, step = DEFAULT_TIME_PER_TURN): Date[] {
   const out: Date[] = [];
   // Modo demo: el día de hoy se puede reservar hasta las 23:50 (igual que la cola de "Atención de turnos"
   // que arma seed.ts), así el recorrido alumno → worker funciona aunque la demo sea de noche.
   const isToday = new Date(day).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
-  const to = isToday ? 24 : SLOT_HOURS.to;
-  for (let h = SLOT_HOURS.from; h < to; h++) {
-    for (let m = 0; m < 60; m += 10) {
-      const s = new Date(day);
-      s.setHours(h, m, 0, 0);
-      out.push(s);
-    }
+  const endMin = (isToday ? 24 : SLOT_HOURS.to) * 60;
+  for (let t = SLOT_HOURS.from * 60; t + step <= endMin; t += step) {
+    const s = new Date(day);
+    s.setHours(Math.floor(t / 60), t % 60, 0, 0);
+    out.push(s);
   }
   return out;
 }
@@ -112,7 +112,11 @@ function freeSlots(noteId: string, day: Date): Date[] {
   const d = db();
   const now = Date.now();
   if (day.getDay() === 0 || day.getDay() === 6) return [];
-  return slotTimes(day).filter((slot) => {
+  // Los horarios se generan según el tiempo por turno del intervalo vigente ese día.
+  const midday = new Date(day);
+  midday.setHours(12, 0, 0, 0);
+  const step = activeIntervalFor(noteId, midday)?.timePerTurn || DEFAULT_TIME_PER_TURN;
+  return slotTimes(day, step).filter((slot) => {
     if (slot.getTime() <= now) return false;
     const interval = activeIntervalFor(noteId, slot);
     if (!interval) return false;
@@ -561,7 +565,8 @@ export const mockApi: Api = {
         dateStart: startOfDay(new Date(req.dateStart)).toISOString(),
         dateEnd: endOfDay(new Date(req.dateEnd)).toISOString(),
         timePerTurn: req.timePerTurn,
-        capacity: req.capacity,
+        // El cupo lo calcula el sistema: días hábiles del intervalo × turnos que entran por día.
+        capacity: intervalCapacity(new Date(req.dateStart), new Date(req.dateEnd), req.timePerTurn),
         isActive: true,
         explainDesactivation: '',
         workerId,
@@ -581,7 +586,7 @@ export const mockApi: Api = {
       i.dateStart = startOfDay(new Date(req.dateStart)).toISOString();
       i.dateEnd = endOfDay(new Date(req.dateEnd)).toISOString();
       i.timePerTurn = req.timePerTurn;
-      i.capacity = req.capacity;
+      i.capacity = intervalCapacity(new Date(req.dateStart), new Date(req.dateEnd), req.timePerTurn);
       i.noteIds = req.noteIds;
       i.updatedAt = new Date().toISOString();
       persist();
@@ -621,6 +626,8 @@ function validateInterval(req: { name: string; dateStart: string; dateEnd: strin
   if (!req.dateStart || !req.dateEnd) throw new ApiError('Completá la fecha de inicio y de fin.', 400);
   if (new Date(req.dateStart) > new Date(req.dateEnd)) throw new ApiError('La fecha de inicio no puede ser posterior a la de fin.', 400);
   if (!req.noteIds.length) throw new ApiError('Asociá al menos una nota al intervalo.', 400);
-  if (!(req.timePerTurn > 0)) throw new ApiError('Ingresá los minutos por turno.', 400);
-  if (!(req.capacity > 0)) throw new ApiError('Ingresá el cupo de turnos.', 400);
+  if (!(req.timePerTurn >= MIN_TIME_PER_TURN && req.timePerTurn <= MAX_TIME_PER_TURN))
+    throw new ApiError(`El tiempo por turno debe estar entre ${MIN_TIME_PER_TURN} y ${MAX_TIME_PER_TURN} minutos.`, 400);
+  if (!(intervalCapacity(new Date(req.dateStart), new Date(req.dateEnd), req.timePerTurn) > 0))
+    throw new ApiError('El intervalo no tiene días hábiles: elegí fechas de lunes a viernes.', 400);
 }
