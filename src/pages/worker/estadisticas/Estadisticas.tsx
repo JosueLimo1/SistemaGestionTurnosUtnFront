@@ -15,7 +15,7 @@ import { exportStats, periodLabel, periodRange, shiftDate } from './statsUtils';
 import styles from './Estadisticas.module.css';
 
 const PERIODS: { value: StatsPeriod; label: string }[] = [
-  { value: 'DAY', label: 'DIA' },
+  { value: 'DAY', label: 'DÍA' },
   { value: 'WEEK', label: 'SEMANA' },
   { value: 'MONTH', label: 'MES' },
   { value: 'YEAR', label: 'AÑO' },
@@ -119,7 +119,7 @@ export default function Estadisticas() {
       {/* ---------- Filtros ---------- */}
       <section className={styles.filter} aria-label="Filtros de estadísticas">
         <div className={styles.filterHead}>
-          <h1 className={styles.filterTitle}>ESTADISTICAS POR:</h1>
+          <h1 className={styles.filterTitle}>ESTADÍSTICAS POR:</h1>
           <button type="button" className={styles.boxBtn} onClick={() => setExportOpen(true)}>
             <img src={iconExport} alt="" width={30} height={30} />
             <span>EXPORTAR</span>
@@ -247,7 +247,7 @@ export default function Estadisticas() {
 
       <div className={styles.kpis}>
         <section className={styles.kpi}>
-          <strong>TIEMPO APROXIMADO DE ATENCION:</strong>
+          <strong>TIEMPO APROXIMADO DE ATENCIÓN:</strong>
           <span>{s?.avgAttentionMinutes ?? 0} MIN</span>
         </section>
         <section className={styles.kpi}>
