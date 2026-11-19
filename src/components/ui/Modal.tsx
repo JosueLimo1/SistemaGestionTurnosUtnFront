@@ -19,11 +19,15 @@ interface Props {
  */
 export function Modal({ open, onClose, title, tone = 'orange', children, width = 580 }: Props) {
   const boxRef = useRef<HTMLDivElement>(null);
+  // onClose suele ser una función nueva en cada render: se guarda en una ref para que el efecto
+  // no se vuelva a ejecutar (y no le robe el foco al campo que se está escribiendo) en cada tecla.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose?.();
+      if (e.key === 'Escape') onCloseRef.current?.();
     };
     document.addEventListener('keydown', onKey);
     const prev = document.body.style.overflow;
@@ -33,7 +37,7 @@ export function Modal({ open, onClose, title, tone = 'orange', children, width =
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = prev;
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open) return null;
   return createPortal(
