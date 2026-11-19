@@ -83,6 +83,10 @@ export default function IntervaloDetalle() {
               <h2 className={d.cardTitle}>DATOS DEL INTERVALO</h2>
               <dl className={d.rows}>
                 <div className={d.row}>
+                  <dt>TIEMPO POR TURNO</dt>
+                  <dd>{i.timePerTurn} min</dd>
+                </div>
+                <div className={d.row}>
                   <dt>CREADO POR</dt>
                   <dd>{i.createdBy?.name ?? '—'}</dd>
                 </div>
