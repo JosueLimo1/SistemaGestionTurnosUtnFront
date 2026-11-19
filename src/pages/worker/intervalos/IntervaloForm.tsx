@@ -10,13 +10,22 @@ import { Modal, ModalActions, ModalNote, ModalSummary } from '../../../component
 import { useToast } from '../../../components/ui/Toast';
 import { useIsDesktop } from '../../../hooks/useMediaQuery';
 import { formatDate } from '../../../utils/format';
+import {
+  attentionLabel,
+  businessDays,
+  DEFAULT_TIME_PER_TURN,
+  intervalCapacity,
+  MAX_TIME_PER_TURN,
+  MIN_TIME_PER_TURN,
+  turnsPerDay,
+} from '../../../utils/agenda';
 import { pad3 } from './intervalUtils';
 import styles from './IntervaloForm.module.css';
 
 interface Errors {
   name?: string;
   dates?: string;
-  capacity?: string;
+  timePerTurn?: string;
   notes?: string;
 }
 
@@ -34,7 +43,7 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
   const [description, setDescription] = useState('');
   const [range, setRange] = useState<DateRange>({ start: null, end: null });
   const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
-  const [capacity, setCapacity] = useState('60');
+  const [timePerTurn, setTimePerTurn] = useState(String(DEFAULT_TIME_PER_TURN));
   const [noteIds, setNoteIds] = useState<string[]>([]);
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -55,7 +64,7 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
         setDescription(i.description);
         setRange({ start: new Date(i.dateStart), end: new Date(i.dateEnd) });
         setMonth(new Date(new Date(i.dateStart).getFullYear(), new Date(i.dateStart).getMonth(), 1));
-        setCapacity(String(i.capacity));
+        setTimePerTurn(String(i.timePerTurn));
         setNoteIds(i.noteIds);
       })
       .catch((e) => setApiError(errorMessage(e)));
@@ -65,14 +74,17 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
     const e: Errors = {};
     if (!name.trim()) e.name = 'El nombre del intervalo es obligatorio.';
     if (!range.start || !range.end) e.dates = 'Elegí la fecha de inicio y de fin en el calendario.';
-    if (!(Number(capacity) > 0)) e.capacity = 'Ingresá un cupo mayor a 0.';
+    const minutes = Number(timePerTurn);
+    if (!(minutes >= MIN_TIME_PER_TURN && minutes <= MAX_TIME_PER_TURN))
+      e.timePerTurn = `Ingresá entre ${MIN_TIME_PER_TURN} y ${MAX_TIME_PER_TURN} minutos por turno.`;
+    else if (range.start && range.end && capacity === 0) e.dates = 'El intervalo no tiene días hábiles: elegí fechas de lunes a viernes.';
     if (!noteIds.length) e.notes = 'Asociá al menos una nota.';
     return e;
   }
   useEffect(() => {
     if (submitted) setErrors(validate());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, range, capacity, noteIds]);
+  }, [name, range, timePerTurn, noteIds]);
 
   function pick(d: Date) {
     if (!range.start || range.end) setRange({ start: d, end: null });
@@ -91,8 +103,8 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
       description,
       dateStart: range.start!.toISOString(),
       dateEnd: range.end!.toISOString(),
-      timePerTurn: original?.timePerTurn ?? 10,
-      capacity: Number(capacity),
+      timePerTurn: Number(timePerTurn),
+      capacity,
       noteIds,
     };
     setSaving(true);
@@ -115,13 +127,19 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
     setName('');
     setDescription('');
     setRange({ start: null, end: null });
-    setCapacity('60');
+    setTimePerTurn(String(DEFAULT_TIME_PER_TURN));
     setNoteIds([]);
     setSubmitted(false);
     setErrors({});
   }
 
   const hasErrors = submitted && Object.keys(errors).length > 0;
+
+  // Cupo calculado por el sistema: días hábiles del intervalo × turnos que entran por día.
+  const minutes = Number(timePerTurn);
+  const perDay = turnsPerDay(minutes);
+  const days = range.start && range.end ? businessDays(range.start, range.end) : 0;
+  const capacity = range.start && range.end ? intervalCapacity(range.start, range.end, minutes) : 0;
 
   const dataBlock = (
     <>
@@ -144,13 +162,27 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
   const quotaBlock = (
     <>
       <Input
-        label="Cupo de turnos *"
+        label="Tiempo por turno *"
         inputMode="numeric"
-        value={capacity}
-        onChange={(e) => setCapacity(e.target.value.replace(/\D/g, ''))}
-        error={errors.capacity}
-        help="Cantidad máxima de turnos que se pueden asignar en todo el intervalo."
+        maxLength={3}
+        value={timePerTurn}
+        onChange={(e) => setTimePerTurn(e.target.value.replace(/\D/g, ''))}
+        error={errors.timePerTurn}
+        trailing={<span className={styles.unit}>MIN</span>}
+        help={`Duración de cada turno. El horario de atención es de ${attentionLabel()}, de lunes a viernes.`}
       />
+      <Field label="Cupo de turnos (calculado por el sistema)">
+        <div className={styles.capacity} aria-live="polite">
+          <span className={styles.capacityValue}>{capacity ? `${capacity} turnos` : '—'}</span>
+          <span className={styles.capacityDetail}>
+            {!range.start || !range.end
+              ? 'Elegí la vigencia en el calendario para calcular el cupo.'
+              : perDay
+                ? `${days} ${days === 1 ? 'día hábil' : 'días hábiles'} × ${perDay} turnos por día`
+                : 'Ingresá el tiempo por turno para calcular el cupo.'}
+          </span>
+        </div>
+      </Field>
       <Field label="Notas asociadas *" error={errors.notes}>
         <div className={styles.checks}>
           {notes.map((n) => (
@@ -238,6 +270,7 @@ export default function IntervaloForm({ mode }: { mode: 'new' | 'edit' }) {
                 ['Nombre', created.name],
                 ['Vigencia', `${formatDate(created.dateStart)} – ${formatDate(created.dateEnd)}`],
                 ['Notas', created.notes.map((n) => n.name).join(', ')],
+                ['Tiempo por turno', `${created.timePerTurn} min`],
                 ['Cupo', `${created.capacity} turnos`],
               ]}
             />
