@@ -1,4 +1,5 @@
 import type { Interval, News, Note, Student, Turn, Worker } from '../types';
+import { DEFAULT_TIME_PER_TURN, intervalCapacity } from '../../utils/agenda';
 
 /*
  * Datos de demostración. Se generan RELATIVOS a la fecha en que se abre la app por primera vez,
@@ -20,7 +21,7 @@ export interface MockDb {
   passwords: Record<string, string>;
 }
 
-export const DB_VERSION = 7;
+export const DB_VERSION = 8;
 export const DEMO_PASSWORD = 'utn2026';
 
 function rng(seed: number) {
@@ -130,8 +131,8 @@ export function buildSeed(now = new Date()): MockDb {
         description: `Intervalo para presentar ${note.name.toLowerCase()} durante ${mes.toLowerCase()} de ${start.getFullYear()}.`,
         dateStart: start.toISOString(),
         dateEnd: monthEnd(offset).toISOString(),
-        timePerTurn: 10,
-        capacity: 60,
+        timePerTurn: DEFAULT_TIME_PER_TURN,
+        capacity: intervalCapacity(start, monthEnd(offset), DEFAULT_TIME_PER_TURN),
         isActive: true,
         explainDesactivation: '',
         workerId: pick(workers).id,
