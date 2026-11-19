@@ -142,3 +142,20 @@
   font-weight: 700;
   opacity: 1;
 }
+
+/* Notebook (poca altura): días más bajos para que el formulario entre en pantalla */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .header {
+    gap: 8px;
+    padding-bottom: 6px;
+  }
+  .arrow {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+  }
+  .day {
+    aspect-ratio: auto;
+    height: 38px;
+  }
+}

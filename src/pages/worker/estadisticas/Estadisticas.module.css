@@ -481,3 +481,70 @@ button.boxBtn:hover {
 .period {
   min-height: 36px;
 }
+
+/* ---------- Celular (< 640 px) ---------- */
+@media (max-width: 639px) {
+  .filterTitle {
+    font-size: 20px;
+  }
+  /* Períodos en dos filas: DÍA · SEMANA · MES / AÑO · PERSONALIZADO */
+  .periods {
+    flex-wrap: wrap;
+  }
+  .period {
+    flex: 1 0 30%;
+    font-size: 13px;
+    overflow-wrap: normal;
+    border-bottom: 2px solid #b3b3b3;
+  }
+  .period:nth-child(3) {
+    border-right: 0;
+  }
+  .period:nth-child(n + 4) {
+    flex-basis: 40%;
+    border-bottom: 0;
+  }
+  .selects {
+    flex-direction: column;
+  }
+  .filterFoot {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .navWrap {
+    flex: 1 0 100%;
+  }
+  .dateNav {
+    gap: 10px;
+    width: 100%;
+    justify-content: space-between;
+  }
+  .navArrow img {
+    width: 32px;
+    height: 32px;
+  }
+  .navLabel {
+    font-size: 17px;
+  }
+  /* Totales: TOTAL arriba y las cuatro cajas en una grilla de 2 x 2 */
+  .boxes {
+    flex-wrap: wrap;
+  }
+  .total {
+    flex: 1 0 100%;
+    flex-direction: row;
+    gap: 12px;
+  }
+  .vline {
+    display: none;
+  }
+  .darkBox {
+    flex: 1 0 calc(50% - 5px);
+  }
+  .darkLabel {
+    font-size: 13px;
+  }
+  .kpis {
+    flex-direction: column;
+  }
+}

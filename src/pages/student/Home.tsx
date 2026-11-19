@@ -6,7 +6,7 @@ import { api } from '../../api';
 import { useStudent } from '../../auth/SessionContext';
 import { PageMain } from '../../components/layout/Layouts';
 import { useAsync } from '../../hooks/useAsync';
-import { useIsDesktop } from '../../hooks/useMediaQuery';
+import { useIsDesktop, useMediaQuery } from '../../hooks/useMediaQuery';
 import { formatDate, formatTime } from '../../utils/format';
 import styles from './Home.module.css';
 
@@ -15,7 +15,10 @@ export default function Home() {
   const student = useStudent();
   const desktop = useIsDesktop();
   const navigate = useNavigate();
+  // En celulares angostos entran 2 noticias por fila; los turnos se apilan (ver Home.module.css).
+  const narrow = useMediaQuery('(max-width: 639px)');
   const perPage = desktop ? 5 : 3;
+  const newsPerPage = narrow ? 2 : perPage;
   const [newsPage, setNewsPage] = useState(0);
 
   const news = useAsync(() => api.news.list({ onlyPublished: true, pageSize: 50 }), []);
@@ -25,9 +28,9 @@ export default function Home() {
   );
 
   const allNews = news.data?.items ?? [];
-  const pages = Math.max(1, Math.ceil(allNews.length / perPage));
+  const pages = Math.max(1, Math.ceil(allNews.length / newsPerPage));
   const page = Math.min(newsPage, pages - 1);
-  const visibleNews = allNews.slice(page * perPage, page * perPage + perPage);
+  const visibleNews = allNews.slice(page * newsPerPage, page * newsPerPage + newsPerPage);
 
   const pending = (turns.data?.items ?? []).slice().sort((a, b) => a.date.localeCompare(b.date));
   const visibleTurns = pending.slice(0, perPage);
@@ -71,7 +74,7 @@ export default function Home() {
               <article key={n.id} className={`${styles.orange} ${styles.newsItem}`}>
                 <p className={styles.newsTitle}>{n.title}</p>
                 <Link to={`/alumno/noticias/${n.id}`} className={styles.blackBtn}>
-                  Read More
+                  Leer más
                 </Link>
               </article>
             ))

@@ -45,7 +45,7 @@ export default function Login() {
   return (
     <AuthLayout>
       <form className={styles.card} onSubmit={onSubmit} noValidate>
-        <h1 className={styles.title}>INICIO DE SESION</h1>
+        <h1 className={styles.title}>INICIO DE SESIÓN</h1>
         <TextField
           label="LEGAJO"
           inputMode="numeric"

@@ -20,7 +20,7 @@ export interface MockDb {
   passwords: Record<string, string>;
 }
 
-export const DB_VERSION = 6;
+export const DB_VERSION = 7;
 export const DEMO_PASSWORD = 'utn2026';
 
 function rng(seed: number) {
@@ -82,10 +82,10 @@ export function buildSeed(now = new Date()): MockDb {
   ];
 
   const noteNames = [
-    'AMPLIACION DE CUPO',
-    'INSCRIPCION FUERA DE TERMINO',
+    'AMPLIACIÓN DE CUPO',
+    'INSCRIPCIÓN FUERA DE TÉRMINO',
     'BAJA DE REGULARIDAD',
-    'CAMBIO DE COMISION',
+    'CAMBIO DE COMISIÓN',
     'RECURSADO DE ASIGNATURAS ANUALES',
   ];
   const notes: Note[] = noteNames.map((name, i) => ({ id: sid(), number: i + 1, name, workerId: workers[i % 2].id }));
@@ -114,7 +114,7 @@ export function buildSeed(now = new Date()): MockDb {
     ['AMPLIACIONES', nAmpliacion],
     ['INSCRIPCIONES', nInscripcion],
     ['BAJAS', nBaja],
-    ['CAMBIOS DE COMISION', nCambio],
+    ['CAMBIOS DE COMISIÓN', nCambio],
     ['RECURSADOS', nRecursado],
   ];
   for (const offset of [-1, 0, 1]) {

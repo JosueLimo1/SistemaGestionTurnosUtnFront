@@ -5,7 +5,7 @@ import { Button } from '../../../components/ui/Button';
 import { Modal, ModalActions, ModalNote, ModalSummary } from '../../../components/ui/Modal';
 import { StatusChip } from '../../../components/ui/ListKit';
 import { useToast } from '../../../components/ui/Toast';
-import { useIsDesktop } from '../../../hooks/useMediaQuery';
+import { useIsDesktop, useIsShortScreen } from '../../../hooks/useMediaQuery';
 import { formatClock, formatDate, formatTime, TURN_STATUS_LABEL } from '../../../utils/format';
 import styles from './Atencion.module.css';
 
@@ -29,6 +29,7 @@ function startedAt(turnId: string): number {
 export default function Atencion() {
   const worker = useWorker();
   const desktop = useIsDesktop();
+  const shortScreen = useIsShortScreen();
   const toast = useToast();
 
   const [queue, setQueue] = useState<TurnView[] | null>(null);
@@ -110,7 +111,8 @@ export default function Atencion() {
     return () => window.removeEventListener('keydown', onKey);
   }, [current, confirmLost, attend]);
 
-  const maxRows = desktop ? 11 : 7;
+  // En notebooks (poca altura) se muestran menos filas para que todo entre sin scrollear.
+  const maxRows = desktop ? (shortScreen ? 8 : 11) : 7;
 
   if (queue === null) {
     return (

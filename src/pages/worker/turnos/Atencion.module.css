@@ -197,7 +197,7 @@
 .thead,
 .tr {
   display: grid;
-  grid-template-columns: 56px 190px minmax(0, 1fr);
+  grid-template-columns: 56px minmax(0, 1.1fr) minmax(0, 1fr);
   gap: 10px;
   align-items: center;
 }
@@ -353,5 +353,75 @@
   .emptyText {
     font-size: 24px;
     line-height: 29px;
+  }
+}
+
+/* ---------- Notebook (poca altura): todo el turno actual entra en pantalla ---------- */
+@media (min-width: 1024px) and (max-height: 820px) {
+  .main {
+    padding: 18px 40px;
+  }
+  .columns {
+    gap: 32px;
+    min-height: 0;
+  }
+  .current {
+    gap: 12px;
+    padding: 18px 26px;
+  }
+  .pending {
+    gap: 8px;
+    padding: 16px 22px;
+  }
+  .date {
+    font-size: 24px;
+    line-height: 29px;
+  }
+  .hour {
+    font-size: 42px;
+    line-height: 48px;
+  }
+  .note {
+    font-size: 24px;
+    line-height: 29px;
+  }
+  .data {
+    gap: 6px;
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .timer {
+    padding: 10px 20px;
+  }
+  .timerValue {
+    font-size: 24px;
+    line-height: 29px;
+  }
+  .big {
+    padding: 14px 10px;
+    font-size: 22px;
+    line-height: 27px;
+  }
+  .pendingTitle {
+    font-size: 22px;
+    line-height: 27px;
+  }
+  .remaining {
+    font-size: 17px;
+    line-height: 21px;
+  }
+  .tr {
+    padding: 6px 10px;
+  }
+  .empty {
+    min-height: 0;
+  }
+}
+@media (min-width: 1024px) and (max-height: 680px) {
+  .main {
+    padding: 12px 40px;
+  }
+  .current {
+    gap: 10px;
   }
 }

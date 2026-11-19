@@ -8,7 +8,7 @@ import styles from './Calendar.module.css';
  * encabezado con flechas circulares blancas de 48 px). Semana de lunes a domingo.
  */
 
-const WEEK = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'];
+const WEEK = ['LU', 'MA', 'MI', 'JU', 'VI', 'SÁ', 'DO'];
 
 export interface DateRange {
   start: Date | null;

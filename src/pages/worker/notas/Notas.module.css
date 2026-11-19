@@ -153,8 +153,8 @@
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 300px);
-    column-gap: 92px;
+    grid-template-columns: repeat(3, minmax(0, 300px));
+    column-gap: clamp(24px, 6vw, 92px);
     row-gap: 16px;
     width: auto;
     justify-content: center;

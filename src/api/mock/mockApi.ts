@@ -84,7 +84,11 @@ function enrichInterval(i: Interval): IntervalView {
 
 function slotTimes(day: Date): Date[] {
   const out: Date[] = [];
-  for (let h = SLOT_HOURS.from; h < SLOT_HOURS.to; h++) {
+  // Modo demo: el día de hoy se puede reservar hasta las 23:50 (igual que la cola de "Atención de turnos"
+  // que arma seed.ts), así el recorrido alumno → worker funciona aunque la demo sea de noche.
+  const isToday = new Date(day).setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0);
+  const to = isToday ? 24 : SLOT_HOURS.to;
+  for (let h = SLOT_HOURS.from; h < to; h++) {
     for (let m = 0; m < 60; m += 10) {
       const s = new Date(day);
       s.setHours(h, m, 0, 0);
