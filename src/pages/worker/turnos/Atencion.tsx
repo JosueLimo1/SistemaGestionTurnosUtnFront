@@ -10,6 +10,7 @@ import { formatClock, formatDate, formatTime, TURN_STATUS_LABEL } from '../../..
 import styles from './Atencion.module.css';
 
 const TIMER_KEY = 'sgt-utn:atencion-inicio';
+const JORNADA_KEY = 'sgt-utn:jornada-pausada';
 
 /** Momento en que el turno pasó a ser el "turno actual" (sobrevive a un F5). */
 function startedAt(turnId: string): number {
@@ -22,6 +23,23 @@ function startedAt(turnId: string): number {
     return at;
   } catch {
     return Date.now();
+  }
+}
+
+/** Reinicia el cronómetro del turno actual (al reanudar la jornada). */
+function restartTimer(turnId: string) {
+  try {
+    sessionStorage.setItem(TIMER_KEY, JSON.stringify({ id: turnId, at: Date.now() }));
+  } catch {
+    /* sin sessionStorage: el cronómetro arranca igual desde el render */
+  }
+}
+
+function readPaused(): boolean {
+  try {
+    return sessionStorage.getItem(JORNADA_KEY) === '1';
+  } catch {
+    return false;
   }
 }
 
@@ -38,6 +56,9 @@ export default function Atencion() {
   const [confirmLost, setConfirmLost] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Jornada pausada: se ve la cola, pero no corre el cronómetro ni se pueden marcar turnos.
+  const [paused, setPaused] = useState(readPaused);
+  const [timerReset, setTimerReset] = useState(0);
 
   const load = useCallback(async () => {
     const today = new Date().toISOString();
@@ -61,11 +82,35 @@ export default function Atencion() {
 
   const current = queue?.[0] ?? null;
   const rest = useMemo(() => queue?.slice(1) ?? [], [queue]);
-  const since = useMemo(() => (current ? startedAt(current.id) : Date.now()), [current]);
-  const elapsed = current ? Math.floor((now - since) / 1000) : 0;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const since = useMemo(() => (current ? startedAt(current.id) : Date.now()), [current, timerReset]);
+  const elapsed = current && !paused ? Math.max(0, Math.floor((now - since) / 1000)) : 0;
+
+  const pauseJornada = useCallback(() => {
+    setPaused(true);
+    try {
+      sessionStorage.setItem(JORNADA_KEY, '1');
+    } catch {
+      /* noop */
+    }
+    toast('JORNADA PAUSADA', { detail: 'No se cuenta el tiempo de atención hasta que la reanudes.' });
+  }, [toast]);
+
+  const resumeJornada = useCallback(() => {
+    if (current) restartTimer(current.id);
+    setTimerReset((n) => n + 1);
+    setNow(Date.now());
+    setPaused(false);
+    try {
+      sessionStorage.removeItem(JORNADA_KEY);
+    } catch {
+      /* noop */
+    }
+    toast('JORNADA REANUDADA', { detail: 'El cronómetro volvió a empezar desde cero.' });
+  }, [current, toast]);
 
   const attend = useCallback(async () => {
-    if (!current || busy) return;
+    if (!current || busy || paused) return;
     setBusy(true);
     setError(null);
     try {
@@ -77,10 +122,10 @@ export default function Atencion() {
     } finally {
       setBusy(false);
     }
-  }, [current, busy, worker.id, elapsed, toast, load]);
+  }, [current, busy, paused, worker.id, elapsed, toast, load]);
 
   const markLost = useCallback(async () => {
-    if (!current) return;
+    if (!current || paused) return;
     setBusy(true);
     setError(null);
     try {
@@ -93,12 +138,16 @@ export default function Atencion() {
     } finally {
       setBusy(false);
     }
-  }, [current, worker.id, toast, load]);
+  }, [current, paused, worker.id, toast, load]);
 
   // Atajos de teclado F10 = Atendido, F12 = Ausente (CU Atención de Turnos).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!current || confirmLost) return;
+      if (paused && (e.key === 'F10' || e.key === 'F12')) {
+        e.preventDefault();
+        return;
+      }
       if (e.key === 'F10') {
         e.preventDefault();
         void attend();
@@ -109,7 +158,7 @@ export default function Atencion() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [current, confirmLost, attend]);
+  }, [current, confirmLost, paused, attend]);
 
   // En notebooks (poca altura) se muestran menos filas para que todo entre sin scrollear.
   const maxRows = desktop ? (shortScreen ? 8 : 11) : 7;
@@ -139,10 +188,20 @@ export default function Atencion() {
         {/* ---------- Turno actual ---------- */}
         <section className={styles.current} aria-labelledby="h-actual">
           <div className={styles.head}>
-            <h1 id="h-actual" className={styles.headTitle}>
-              TURNO ACTUAL
-            </h1>
-            <StatusChip>{TURN_STATUS_LABEL[current.status]}</StatusChip>
+            <div className={styles.headLeft}>
+              <h1 id="h-actual" className={styles.headTitle}>
+                TURNO ACTUAL
+              </h1>
+              <StatusChip>{TURN_STATUS_LABEL[current.status]}</StatusChip>
+            </div>
+            <div className={styles.jornada} role="group" aria-label="Jornada de atención">
+              <Button variant="outline" size="sm" onClick={pauseJornada} disabled={paused || busy}>
+                PAUSAR JORNADA
+              </Button>
+              <Button variant="primary" size="sm" onClick={resumeJornada} disabled={!paused || busy}>
+                REANUDAR JORNADA
+              </Button>
+            </div>
           </div>
           <div className={styles.dateRow}>
             <span className={styles.date}>{formatDate(current.date)}</span>
@@ -161,11 +220,11 @@ export default function Atencion() {
               <strong>INTERVALO:</strong> {current.interval.name}
             </p>
           </div>
-          <div className={styles.timer}>
+          <div className={`${styles.timer} ${paused ? styles.timerPaused : ''}`}>
             <div>
-              <p className={styles.timerLabel}>EN ATENCIÓN HACE</p>
-              <p className={styles.timerValue} aria-live="off">
-                {formatClock(elapsed)}
+              <p className={styles.timerLabel}>{paused ? 'JORNADA PAUSADA' : 'EN ATENCIÓN HACE'}</p>
+              <p className={styles.timerValue} aria-live="polite">
+                {paused ? 'EN PAUSA' : formatClock(elapsed)}
               </p>
             </div>
             <div className={styles.timerRight}>
@@ -174,12 +233,13 @@ export default function Atencion() {
             </div>
           </div>
           {error && <p className={styles.error}>{error}</p>}
+          {paused && <p className={styles.pausedHint}>Reanudá la jornada para marcar turnos como atendidos o ausentes.</p>}
           <div className={styles.buttons}>
-            <button type="button" className={`${styles.big} ${styles.attend}`} onClick={attend} disabled={busy}>
+            <button type="button" className={`${styles.big} ${styles.attend}`} onClick={attend} disabled={busy || paused}>
               ATENDIDO
               {desktop && <kbd className={styles.key}>F10</kbd>}
             </button>
-            <button type="button" className={`${styles.big} ${styles.lost}`} onClick={() => setConfirmLost(true)} disabled={busy}>
+            <button type="button" className={`${styles.big} ${styles.lost}`} onClick={() => setConfirmLost(true)} disabled={busy || paused}>
               AUSENTE
               {desktop && <kbd className={`${styles.key} ${styles.keyLight}`}>F12</kbd>}
             </button>
