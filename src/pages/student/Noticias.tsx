@@ -49,7 +49,7 @@ export default function Noticias() {
               </div>
               <p className={styles.excerpt}>{n.description}</p>
               <Link to={`/alumno/noticias/${n.id}`} className={styles.more}>
-                VER MAS
+                VER MÁS
               </Link>
             </article>
           ))}
