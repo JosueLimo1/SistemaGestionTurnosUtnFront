@@ -127,3 +127,31 @@
     gap: 20px;
   }
 }
+
+/* Tiempo por turno y cupo calculado */
+.unit {
+  padding-right: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--c-muted);
+}
+.capacity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  padding: 10px 14px;
+  border-radius: var(--r-chip);
+  background: var(--bg-row);
+}
+.capacityValue {
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  color: var(--c-black);
+}
+.capacityDetail {
+  font-size: 13px;
+  line-height: 16px;
+  color: var(--c-muted);
+}
