@@ -35,8 +35,20 @@
 }
 .head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 10px 12px;
+}
+.headLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+/* Pausar / reanudar jornada */
+.jornada {
+  display: flex;
+  gap: 8px;
 }
 .headTitle {
   font-size: 20px;
@@ -96,6 +108,16 @@
   box-shadow: var(--sh-btn);
   color: var(--c-white);
 }
+.timerPaused {
+  background: var(--c-accent);
+}
+.pausedHint {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 600;
+  color: var(--c-muted);
+  text-align: center;
+}
 .timerRight {
   text-align: right;
 }
@@ -138,7 +160,7 @@
 }
 .big:disabled {
   opacity: 0.5;
-  cursor: wait;
+  cursor: not-allowed;
 }
 .attend {
   background: var(--c-white);
