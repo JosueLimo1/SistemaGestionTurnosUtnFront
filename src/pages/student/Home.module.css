@@ -241,3 +241,37 @@
     margin-top: 0;
   }
 }
+
+/* ---------- Celular (< 640 px) ---------- */
+@media (max-width: 639px) {
+  .card {
+    padding: 16px;
+  }
+  .title {
+    font-size: 26px;
+    line-height: 30px;
+  }
+  .arrows {
+    gap: 10px;
+  }
+  .arrow img {
+    width: 40px;
+    height: 40px;
+  }
+  .row,
+  .turnsRow {
+    gap: 12px;
+  }
+  .newsTitle {
+    line-height: 20px;
+    min-height: calc(20px * 3);
+  }
+  /* Los turnos se apilan: cada uno ocupa todo el ancho */
+  .turnsRow {
+    flex-direction: column;
+  }
+  .turnsRow .orange {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+}
